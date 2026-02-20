@@ -1,0 +1,24 @@
+# ============================================
+# Postgres Init Script ConfigMap
+# ============================================
+# This ConfigMap contains the database initialization script.
+# To create it, run:
+#   kubectl create configmap postgres-init-script \
+#     --from-file=init.sql=../../postgres/init.sql \
+#     --namespace=ds-platform
+#
+# Or apply this file after manually adding the SQL content.
+# ============================================
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-script
+  namespace: ds-platform
+data:
+  # Note: For large SQL files, use kubectl create from-file instead
+  # The content below is a placeholder - replace with actual init.sql content
+  init.sql: |
+    -- This is a placeholder
+    -- Use: kubectl create configmap postgres-init-script --from-file=init.sql=../../postgres/init.sql -n ds-platform
+    SELECT 1;

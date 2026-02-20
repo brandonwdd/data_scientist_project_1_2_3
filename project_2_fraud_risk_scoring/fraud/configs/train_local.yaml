@@ -1,0 +1,13 @@
+# ============================================
+# Training config for LOCAL IEEE data (tune to pass gate)
+# ============================================
+
+lightgbm:
+  num_leaves: 63
+  learning_rate: 0.03
+  feature_fraction: 0.8
+  bagging_fraction: 0.8
+  bagging_freq: 5
+  min_data_in_leaf: 100
+  num_boost_round: 800
+  early_stopping_rounds: 30

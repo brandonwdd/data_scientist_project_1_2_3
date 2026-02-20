@@ -1,0 +1,35 @@
+# Project 3: Enterprise RAG System
+
+# Core
+pandas>=2.0.0
+numpy>=1.24.0
+pyyaml>=6.0.0
+
+# FastAPI & Serving
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.5.0
+
+# Platform SDK
+# pip install -e ../ds_platform/platform_sdk
+
+# Ingestion (D4)
+pymupdf>=1.23.0
+# unstructured>=0.10.0  # optional
+
+# Retrieval (D5)
+rank-bm25>=0.2.2
+sentence-transformers>=2.2.0
+qdrant-client>=1.7.0
+
+# Eval (D7)
+ragas>=0.1.0
+datasets>=2.14.0
+
+# DB
+psycopg2-binary>=2.9.0
+sqlalchemy>=2.0.0
+
+# Utils
+python-dotenv>=1.0.0
+requests>=2.28.0

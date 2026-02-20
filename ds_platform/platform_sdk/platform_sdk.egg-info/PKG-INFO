@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: platform-sdk
+Version: 1.0.0
+Summary: ML Platform Unified SDK
+Requires-Python: >=3.9
+Requires-Dist: fastapi>=0.104.0
+Requires-Dist: pydantic>=2.5.0
+Requires-Dist: mlflow>=2.8.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: psycopg2-binary>=2.9.0
+Requires-Dist: sqlalchemy>=2.0.0
+Requires-Dist: redis>=5.0.0
+Requires-Dist: celery>=5.3.0
+Requires-Dist: prometheus-client>=0.19.0
+Requires-Dist: pyyaml>=6.0.0
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary

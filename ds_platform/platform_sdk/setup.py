@@ -1,0 +1,27 @@
+"""
+Platform SDK Setup
+"""
+
+from setuptools import setup, find_packages
+
+setup(
+    name="platform-sdk",
+    version="1.0.0",
+    description="ML Platform Unified SDK",
+    packages=find_packages(),
+    install_requires=[
+        "fastapi>=0.104.0",
+        "pydantic>=2.5.0",
+        "mlflow>=2.8.0",
+        "pandas>=2.0.0",
+        "numpy>=1.24.0",
+        "psycopg2-binary>=2.9.0",
+        "sqlalchemy>=2.0.0",
+        "redis>=5.0.0",
+        "celery>=5.3.0",
+        "prometheus-client>=0.19.0",
+        "pyyaml>=6.0.0",
+        "pymupdf>=1.23.0",  # PDF parsing for RAG (project_3_enterprise_rag_llm) ingest
+    ],
+    python_requires=">=3.9",
+)

@@ -1,0 +1,41 @@
+# Core dependencies (pinned loosely for Python 3.12+; strict pins may fail on 3.13)
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+pandas>=2.2.2
+numpy>=1.26.2,<3
+
+# ML libraries
+scikit-learn>=1.3.2
+lightgbm>=4.1.0
+xgboost>=2.0.3
+
+# MLflow
+mlflow==2.8.1
+
+# Spark (for feature engineering)
+pyspark==3.5.0
+
+# Optimization
+pulp==2.7.0  # For ILP optimization
+
+# Visualization
+matplotlib==3.8.2
+seaborn==0.13.0
+
+# SHAP (optional)
+shap==0.43.0
+
+# Database
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.23
+
+# Redis (for async queue)
+redis==5.0.1
+celery==5.3.4
+
+# Monitoring
+prometheus-client==0.19.0
+
+# Config
+pyyaml==6.0.1

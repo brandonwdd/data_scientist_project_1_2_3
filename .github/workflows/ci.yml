@@ -1,0 +1,66 @@
+name: ci_pipeline
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', 'ds_platform/platform_sdk/setup.py') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: install platform sdk
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ds_platform/platform_sdk
+
+      - name: install ci deps (pytest, ruff)
+        run: pip install pytest ruff
+
+      - name: lint with ruff
+        run: |
+          ruff check ml_platform/platform_sdk project_1_churn_ltv_decisioning project_2_fraud_risk_scoring project_3_enterprise_rag_llm --output-format=github || true
+        continue-on-error: true
+
+      - name: run tests (platform sdk)
+        env:
+          PYTHONPATH: ${{ github.workspace }}/ds_platform
+        run: |
+          pytest ds_platform/platform_sdk/tests -v --tb=short
+
+      - name: optional - install project deps and import check
+        env:
+          PYTHONPATH: ${{ github.workspace }}/ds_platform
+        run: |
+          pip install -r project_1_churn_ltv_decisioning/requirements.txt || true
+          pip install -r project_2_fraud_risk_scoring/requirements.txt || true
+          pip install -r project_3_enterprise_rag_llm/requirements.txt || true
+          python -c "
+          from platform_sdk.serving.app_factory import create_app
+          from platform_sdk.training.promotion_gate import PromotionGate
+          app = create_app(title='Test', domain='test')
+          assert app is not None
+          g = PromotionGate(config={'auc_min': 0.7})
+          r = g.evaluate({'auc': 0.8})
+          assert r['passed'] == True
+          "
+        continue-on-error: true

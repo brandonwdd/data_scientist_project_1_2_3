@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow-service
+  namespace: ds-platform
+  labels:
+    app: mlflow
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP
+      name: mlflow
+  selector:
+    app: mlflow
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+  namespace: ds-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+  template:
+    metadata:
+      labels:
+        app: mlflow
+    spec:
+      containers:
+      - name: mlflow
+        image: ghcr.io/mlflow/mlflow:v2.8.1
+        ports:
+        - containerPort: 5000
+          name: mlflow
+        env:
+        - name: MLFLOW_BACKEND_STORE_URI
+          valueFrom:
+            secretKeyRef:
+              name: ds-platform-secrets
+              key: MLFLOW_BACKEND_STORE_URI
+        - name: MLFLOW_ARTIFACT_ROOT
+          valueFrom:
+            secretKeyRef:
+              name: ds-platform-secrets
+              key: MLFLOW_ARTIFACT_ROOT
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: ds-platform-secrets
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ds-platform-secrets
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_REGION
+          valueFrom:
+            secretKeyRef:
+              name: ds-platform-secrets
+              key: AWS_REGION
+        command:
+        - mlflow
+        - server
+        - --backend-store-uri
+        - $(MLFLOW_BACKEND_STORE_URI)
+        - --default-artifact-root
+        - $(MLFLOW_ARTIFACT_ROOT)
+        - --host
+        - 0.0.0.0
+        - --port
+        - "5000"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      restartPolicy: Always

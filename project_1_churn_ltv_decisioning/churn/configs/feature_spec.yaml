@@ -1,0 +1,164 @@
+# ============================================
+# Churn Feature Specification
+# ============================================
+
+entity: user_id
+feature_set_version: fs_churn_v1
+
+features:
+  # Usage Features
+  - name: active_days_30d
+    type: numeric
+    source: behavior
+    window_days: 30
+    aggregation: count_distinct
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Number of active days in last 30 days"
+
+  - name: sessions_7d
+    type: numeric
+    source: behavior
+    window_days: 7
+    aggregation: count
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Number of sessions in last 7 days"
+
+  - name: core_feature_cnt_14d
+    type: numeric
+    source: behavior
+    window_days: 14
+    aggregation: count_distinct
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Number of distinct core features used in last 14 days"
+
+  # Payment Features
+  - name: payment_fail_30d
+    type: numeric
+    source: payment
+    window_days: 30
+    aggregation: count
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Number of payment failures in last 30 days"
+
+  - name: price_change_flag
+    type: boolean
+    source: subscription
+    window_days: 90
+    aggregation: any
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Whether price changed in last 90 days"
+
+  - name: discount_used_90d
+    type: boolean
+    source: subscription
+    window_days: 90
+    aggregation: any
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Whether discount/coupon used in last 90 days"
+
+  # Support Features
+  - name: tickets_30d
+    type: numeric
+    source: support
+    window_days: 30
+    aggregation: count
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Number of support tickets in last 30 days"
+
+  - name: avg_resolution_hours_90d
+    type: numeric
+    source: support
+    window_days: 90
+    aggregation: mean
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Average ticket resolution time in hours (last 90 days)"
+
+  - name: high_sev_ticket_30d
+    type: numeric
+    source: support
+    window_days: 30
+    aggregation: count
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Number of high severity tickets in last 30 days"
+
+  # Trend Features
+  - name: usage_slope_4w
+    type: numeric
+    source: behavior
+    window_days: 28
+    aggregation: slope
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Usage trend slope over last 4 weeks"
+
+  - name: recency_days
+    type: numeric
+    source: behavior
+    window_days: 90
+    aggregation: max
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Days since last activity"
+
+  # Value Proxy Features
+  - name: avg_revenue_90d
+    type: numeric
+    source: payment
+    window_days: 90
+    aggregation: mean
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Average revenue per day in last 90 days"
+
+  - name: plan_tier
+    type: categorical
+    source: subscription
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: daily
+    ttl_hours: 48
+    categories: ["free", "basic", "pro", "enterprise"]
+    description: "Current subscription plan tier"
+
+# Domain Sets (for validation)
+domain_sets:
+  plan_tier:
+    - "free"
+    - "basic"
+    - "pro"
+    - "enterprise"
+  channel:
+    - "web"
+    - "mobile"
+    - "api"
+    - "partner"
+
+# Feature Groups (for feature importance analysis)
+feature_groups:
+  usage:
+    - active_days_30d
+    - sessions_7d
+    - core_feature_cnt_14d
+  payment:
+    - payment_fail_30d
+    - price_change_flag
+    - discount_used_90d
+  support:
+    - tickets_30d
+    - avg_resolution_hours_90d
+    - high_sev_ticket_30d
+  trend:
+    - usage_slope_4w
+    - recency_days
+  value:
+    - avg_revenue_90d
+    - plan_tier

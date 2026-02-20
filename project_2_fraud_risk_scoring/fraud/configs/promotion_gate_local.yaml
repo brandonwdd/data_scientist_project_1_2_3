@@ -1,0 +1,14 @@
+# ============================================
+# Fraud Promotion Gate - LOCAL (relaxed for IEEE / dev)
+# Use when DATA_SOURCE=local; pass this to get "promotion" and then tune to reach production gate.
+# ============================================
+
+fraud:
+  pr_auc_min: 0.25
+  auc_min: 0.75
+  ece_max: 0.10
+  brier_max: 0.25
+  topk_precision_5pct_min: 0.20
+  topk_precision_10pct_min: 0.15
+  recall_at_precision_90_min: 0.0
+  fpr_at_recall_80_max: 0.50

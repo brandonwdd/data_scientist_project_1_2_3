@@ -1,0 +1,50 @@
+# ============================================
+# Fraud Promotion Gate Configuration
+# ============================================
+
+# Fraud Model Metrics
+fraud:
+  pr_auc_min: 0.75
+  auc_min: 0.90
+  ece_max: 0.03
+  brier_max: 0.12
+  topk_precision_5pct_min: 0.85  # Top 5% precision
+  topk_precision_10pct_min: 0.75  # Top 10% precision
+  recall_at_precision_90_min: 0.60  # Recall at 90% precision
+  fpr_at_recall_80_max: 0.05  # False positive rate at 80% recall
+
+# Policy Metrics
+policy:
+  false_positive_rate_max: 0.02  # 2% FPR
+  false_negative_rate_max: 0.01  # 1% FNR (critical for fraud)
+  approval_rate_min: 0.85  # At least 85% transactions approved
+  manual_review_rate_max: 0.10  # Max 10% sent to manual review
+
+# Data Quality
+data_quality:
+  missing_rate_max: 0.01  # 1% (stricter than churn)
+  schema_drift_max: 0  # No schema drift allowed
+  domain_set_violations_max: 0
+
+# SLO (Stricter than churn: 80ms p95)
+slo:
+  latency_p95_max_ms: 80  # 80ms p95 (vs 120ms for churn)
+  latency_p99_max_ms: 150  # 150ms p99
+  error_rate_5xx_max: 0.001  # 0.1% (stricter than churn's 0.5%)
+
+# Cooldown (days)
+cooldown_days: 7  # Shorter cooldown for fraud (vs 14 days for churn)
+
+# Required Artifacts
+required_artifacts:
+  - metrics.json
+  - confusion_matrix.png
+  - pr_curve.png
+  - roc_curve.png
+  - calibration_curve.png
+  - precision_recall_curve.png
+  - feature_importance_shap.png
+  - policy_decision_curve.png
+  - data_quality_report.json
+  - drift_baseline.json
+  - model_card.md

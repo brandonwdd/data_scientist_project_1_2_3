@@ -1,0 +1,272 @@
+# ============================================
+# Fraud Feature Specification
+# ============================================
+
+entity: transaction_id
+feature_set_version: fs_fraud_v1
+
+features:
+  # Transaction Features
+  - name: amount
+    type: numeric
+    source: transaction
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: realtime
+    ttl_hours: 1
+    description: "Transaction amount"
+
+  - name: amount_usd
+    type: numeric
+    source: transaction
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: realtime
+    ttl_hours: 1
+    description: "Transaction amount in USD"
+
+  - name: currency
+    type: categorical
+    source: transaction
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: realtime
+    ttl_hours: 1
+    categories: ["USD", "EUR", "GBP", "CNY", "JPY", "OTHER"]
+    description: "Transaction currency"
+
+  - name: payment_method
+    type: categorical
+    source: transaction
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: realtime
+    ttl_hours: 1
+    categories: ["credit_card", "debit_card", "bank_transfer", "digital_wallet", "crypto", "other"]
+    description: "Payment method"
+
+  - name: merchant_category
+    type: categorical
+    source: transaction
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: realtime
+    ttl_hours: 1
+    description: "Merchant category code (MCC)"
+
+  # User Behavior Features (Historical)
+  - name: transaction_count_1h
+    type: numeric
+    source: behavior
+    window_days: 0
+    window_hours: 1
+    aggregation: count
+    refresh_frequency: realtime
+    ttl_hours: 1
+    description: "Number of transactions in last 1 hour"
+
+  - name: transaction_count_24h
+    type: numeric
+    source: behavior
+    window_days: 1
+    aggregation: count
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Number of transactions in last 24 hours"
+
+  - name: transaction_count_7d
+    type: numeric
+    source: behavior
+    window_days: 7
+    aggregation: count
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Number of transactions in last 7 days"
+
+  - name: total_amount_24h
+    type: numeric
+    source: behavior
+    window_days: 1
+    aggregation: sum
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Total transaction amount in last 24 hours"
+
+  - name: avg_amount_7d
+    type: numeric
+    source: behavior
+    window_days: 7
+    aggregation: mean
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Average transaction amount in last 7 days"
+
+  - name: max_amount_30d
+    type: numeric
+    source: behavior
+    window_days: 30
+    aggregation: max
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Maximum transaction amount in last 30 days"
+
+  # Device & Location Features
+  - name: device_id
+    type: categorical
+    source: transaction
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: realtime
+    ttl_hours: 1
+    description: "Device identifier"
+
+  - name: ip_address_country
+    type: categorical
+    source: transaction
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: realtime
+    ttl_hours: 1
+    description: "IP address country code"
+
+  - name: is_new_device
+    type: boolean
+    source: behavior
+    window_days: 90
+    aggregation: any
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Whether device is new (first seen in last 90 days)"
+
+  - name: country_change_flag_24h
+    type: boolean
+    source: behavior
+    window_days: 1
+    aggregation: any
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Whether country changed in last 24 hours"
+
+  # Risk Signals
+  - name: chargeback_count_90d
+    type: numeric
+    source: risk
+    window_days: 90
+    aggregation: count
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Number of chargebacks in last 90 days"
+
+  - name: fraud_flag_count_90d
+    type: numeric
+    source: risk
+    window_days: 90
+    aggregation: count
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Number of fraud flags in last 90 days"
+
+  - name: velocity_risk_score
+    type: numeric
+    source: risk
+    window_days: 1
+    aggregation: latest
+    refresh_frequency: hourly
+    ttl_hours: 24
+    description: "Velocity-based risk score (0-1)"
+
+  - name: device_risk_score
+    type: numeric
+    source: risk
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: realtime
+    ttl_hours: 1
+    description: "Device fingerprint risk score (0-1)"
+
+  # User Profile Features
+  - name: account_age_days
+    type: numeric
+    source: profile
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: daily
+    ttl_hours: 48
+    description: "Account age in days"
+
+  - name: kyc_status
+    type: categorical
+    source: profile
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: daily
+    ttl_hours: 48
+    categories: ["verified", "pending", "rejected", "not_started"]
+    description: "KYC verification status"
+
+  - name: account_status
+    type: categorical
+    source: profile
+    window_days: 0
+    aggregation: latest
+    refresh_frequency: daily
+    ttl_hours: 48
+    categories: ["active", "suspended", "closed", "restricted"]
+    description: "Account status"
+
+# Domain Sets (for validation)
+domain_sets:
+  currency:
+    - "USD"
+    - "EUR"
+    - "GBP"
+    - "CNY"
+    - "JPY"
+    - "OTHER"
+  payment_method:
+    - "credit_card"
+    - "debit_card"
+    - "bank_transfer"
+    - "digital_wallet"
+    - "crypto"
+    - "other"
+  kyc_status:
+    - "verified"
+    - "pending"
+    - "rejected"
+    - "not_started"
+  account_status:
+    - "active"
+    - "suspended"
+    - "closed"
+    - "restricted"
+
+# Feature Groups (for feature importance analysis)
+feature_groups:
+  transaction:
+    - amount
+    - amount_usd
+    - currency
+    - payment_method
+    - merchant_category
+  behavior:
+    - transaction_count_1h
+    - transaction_count_24h
+    - transaction_count_7d
+    - total_amount_24h
+    - avg_amount_7d
+    - max_amount_30d
+  device_location:
+    - device_id
+    - ip_address_country
+    - is_new_device
+    - country_change_flag_24h
+  risk:
+    - chargeback_count_90d
+    - fraud_flag_count_90d
+    - velocity_risk_score
+    - device_risk_score
+  profile:
+    - account_age_days
+    - kyc_status
+    - account_status

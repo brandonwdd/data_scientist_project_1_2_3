@@ -1,0 +1,122 @@
+# version is obsolete in Compose V2; omit to avoid warning
+name: ds_platform
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    container_name: infra-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-mlplatform}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mlplatform_dev}
+      POSTGRES_DB: ${POSTGRES_DB:-churn}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mlplatform}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ds-platform-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: infra-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_dev}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis_dev}", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - ds-platform-network
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.8.1
+    container_name: infra-mlflow
+    environment:
+      MLFLOW_BACKEND_STORE_URI: postgresql://${POSTGRES_USER:-mlplatform}:${POSTGRES_PASSWORD:-mlplatform_dev}@postgres:5432/${POSTGRES_DB:-mlplatform}
+      MLFLOW_DEFAULT_ARTIFACT_ROOT: ${MLFLOW_ARTIFACT_ROOT:-s3://mlflow-artifacts}
+      # For local dev, use file:// instead of s3://
+      MLFLOW_ARTIFACT_ROOT: file:///mlflow/artifacts
+    ports:
+      - "${MLFLOW_PORT:-5000}:5000"
+    volumes:
+      - mlflow_artifacts:/mlflow/artifacts
+    command: >
+      mlflow server
+      --backend-store-uri ${MLFLOW_BACKEND_STORE_URI}
+      --default-artifact-root ${MLFLOW_ARTIFACT_ROOT}
+      --host 0.0.0.0
+      --port 5000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - ds-platform-network
+
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: infra-prometheus
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - ds-platform-network
+
+  qdrant:
+    image: qdrant/qdrant:v1.7.4
+    container_name: infra-qdrant
+    ports:
+      - "${QDRANT_PORT:-6333}:6333"
+      - "${QDRANT_GRPC_PORT:-6334}:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      QDRANT__SERVICE__GRPC_PORT: 6334
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:6333/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ds-platform-network
+
+volumes:
+  postgres_data:
+    name: infra-postgres
+  redis_data:
+    name: infra-redis
+  mlflow_artifacts:
+    name: infra-mlflow
+  prometheus_data:
+    name: infra-prometheus
+  qdrant_data:
+    name: infra-qdrant
+
+networks:
+  ds-platform-network:
+    driver: bridge

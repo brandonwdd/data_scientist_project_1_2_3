@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ds-platform
+  labels:
+    name: ds-platform
+    environment: ${ENVIRONMENT:-production}

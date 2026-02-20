@@ -1,0 +1,32 @@
+# ============================================
+# RAG Eval Gate (D8) — Promotion Gate
+# ============================================
+
+# ragas + evaluate metrics
+eval:
+  faithfulness_min: 0.80
+  answer_relevancy_min: 0.85
+  context_recall_min: 0.75
+  context_precision_min: 0.55
+  citation_coverage_min: 0.90
+
+# D8.1 Citation Accuracy (aligned with D7.1)
+citation:
+  evidence_recall_at_k_min: 0.75   # k matches top_k (e.g., 6 or 10)
+  citation_accuracy_min: 0.70     # Based on gold evidence quality
+
+# Latency and cost
+slo:
+  latency_p95_max_ms: 1200        # 1.2s
+  avg_prompt_tokens_max: 2200
+  avg_completion_tokens_max: 500
+
+# Guardrails
+guardrails:
+  must_return_idk_when_no_evidence: true
+  hallucination_flag_rate_max: 0.05   # Can use simple rules as guardrail metric
+
+# Optional: routing / cost
+router:
+  cheap_path_max_latency_ms: 500
+  full_rag_max_latency_ms: 1200

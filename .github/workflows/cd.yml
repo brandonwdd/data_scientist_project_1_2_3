@@ -1,0 +1,62 @@
+name: cd_pipeline
+
+on:
+  workflow_run:
+    workflows: [ "ci_pipeline" ]
+    types: [ completed ]
+    branches: [ main, dev ]
+
+jobs:
+  deploy_project_1:
+    name: deploy project_1_churn_ltv_decisioning
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: write release info
+        run: |
+          mkdir -p release_info
+          echo '{"branch":"${{ github.event.workflow_run.head_branch }}","sha":"${{ github.event.workflow_run.head_sha }}","time":"${{ github.event.workflow_run.updated_at }}","scope":["project_1_churn_ltv_decisioning"]}' > release_info/release_info.json
+
+      - name: upload release info
+        uses: actions/upload-artifact@v4
+        with:
+          name: release_info_project_1_churn_ltv_decisioning
+          path: release_info/release_info.json
+
+  deploy_project_2:
+    name: deploy project_2_fraud_risk_scoring
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: write release info
+        run: |
+          mkdir -p release_info
+          echo '{"branch":"${{ github.event.workflow_run.head_branch }}","sha":"${{ github.event.workflow_run.head_sha }}","time":"${{ github.event.workflow_run.updated_at }}","scope":["project_2_fraud_risk_scoring"]}' > release_info/release_info.json
+
+      - name: upload release info
+        uses: actions/upload-artifact@v4
+        with:
+          name: release_info_project_2_fraud_risk_scoring
+          path: release_info/release_info.json
+
+  deploy_project_3:
+    name: deploy project_3_enterprise_rag_llm
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: write release info
+        run: |
+          mkdir -p release_info
+          echo '{"branch":"${{ github.event.workflow_run.head_branch }}","sha":"${{ github.event.workflow_run.head_sha }}","time":"${{ github.event.workflow_run.updated_at }}","scope":["project_3_enterprise_rag_llm"]}' > release_info/release_info.json
+
+      - name: upload release info
+        uses: actions/upload-artifact@v4
+        with:
+          name: release_info_project_3_enterprise_rag_llm
+          path: release_info/release_info.json
