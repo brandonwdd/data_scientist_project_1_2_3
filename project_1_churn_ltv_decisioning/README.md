@@ -113,8 +113,8 @@ docker compose up -d postgres
 
    - `POSTGRES_HOST`: default `localhost`
    - `POSTGRES_PORT`: default `5432`
-   - `POSTGRES_USER`: default `mlplatform`
-   - `POSTGRES_PASSWORD`: default `mlplatform_dev`
+   - `POSTGRES_USER`: default `dsplatform`
+   - `POSTGRES_PASSWORD`: default `dsplatform_dev`
    - **`POSTGRES_DB`**: for project_1_churn_ltv_decisioning set to **`churn`**
    - **`POSTGRES_SCHEMA`**: for project_1_churn_ltv_decisioning set to **`churn`** (same as DB name; tables like churn.prediction_audit)
 

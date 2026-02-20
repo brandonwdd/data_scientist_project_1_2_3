@@ -14,8 +14,8 @@ class Config:
     # Database
     POSTGRES_HOST: str = os.getenv("POSTGRES_HOST", "localhost")
     POSTGRES_PORT: int = int(os.getenv("POSTGRES_PORT", "5432"))
-    POSTGRES_USER: str = os.getenv("POSTGRES_USER", "mlplatform")
-    POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", "mlplatform_dev")
+    POSTGRES_USER: str = os.getenv("POSTGRES_USER", "dsplatform")
+    POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", "dsplatform_dev")
     POSTGRES_DB: str = os.getenv("POSTGRES_DB", "churn")
     POSTGRES_SCHEMA: str = os.getenv("POSTGRES_SCHEMA", "churn")  # churn / fraud / rag; must match DB name
 

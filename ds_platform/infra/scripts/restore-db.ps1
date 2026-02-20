@@ -34,8 +34,8 @@ Set-Location ..
 Write-Host "`nRestoring database from: $BackupFile" -ForegroundColor Green
 
 try {
-    $env:PGPASSWORD = "mlplatform_dev"
-    Get-Content $BackupFile | docker compose exec -T postgres psql -U mlplatform -d mlplatform
+    $env:PGPASSWORD = "dsplatform_dev"
+    Get-Content $BackupFile | docker compose exec -T postgres psql -U dsplatform -d dsplatform
     
     if ($LASTEXITCODE -eq 0) {
         Write-Host "`n✓ Restore completed successfully!" -ForegroundColor Green

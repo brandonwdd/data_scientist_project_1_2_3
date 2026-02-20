@@ -9,8 +9,8 @@ services:
       dockerfile: Dockerfile
     container_name: infra-postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-mlplatform}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mlplatform_dev}
+      POSTGRES_USER: ${POSTGRES_USER:-dsplatform}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dsplatform_dev}
       POSTGRES_DB: ${POSTGRES_DB:-churn}
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
@@ -18,7 +18,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mlplatform}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dsplatform}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -45,7 +45,7 @@ services:
     image: ghcr.io/mlflow/mlflow:v2.8.1
     container_name: infra-mlflow
     environment:
-      MLFLOW_BACKEND_STORE_URI: postgresql://${POSTGRES_USER:-mlplatform}:${POSTGRES_PASSWORD:-mlplatform_dev}@postgres:5432/${POSTGRES_DB:-mlplatform}
+      MLFLOW_BACKEND_STORE_URI: postgresql://${POSTGRES_USER:-dsplatform}:${POSTGRES_PASSWORD:-dsplatform_dev}@postgres:5432/${POSTGRES_DB:-dsplatform}
       MLFLOW_DEFAULT_ARTIFACT_ROOT: ${MLFLOW_ARTIFACT_ROOT:-s3://mlflow-artifacts}
       # For local dev, use file:// instead of s3://
       MLFLOW_ARTIFACT_ROOT: file:///mlflow/artifacts

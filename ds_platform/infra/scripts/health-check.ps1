@@ -32,8 +32,8 @@ foreach ($service in $services) {
 # Check PostgreSQL
 Write-Host "`nChecking PostgreSQL..." -ForegroundColor Green
 try {
-    $env:PGPASSWORD = "mlplatform_dev"
-    $result = docker compose exec -T postgres psql -U mlplatform -d mlplatform -c "SELECT 1;" 2>&1
+    $env:PGPASSWORD = "dsplatform_dev"
+    $result = docker compose exec -T postgres psql -U dsplatform -d dsplatform -c "SELECT 1;" 2>&1
     if ($LASTEXITCODE -eq 0) {
         Write-Host "  ✓ PostgreSQL is accessible" -ForegroundColor Green
     } else {

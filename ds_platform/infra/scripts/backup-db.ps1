@@ -4,7 +4,7 @@
 
 param(
     [string]$OutputPath = "backups",
-    [string]$BackupName = "mlplatform_$(Get-Date -Format 'yyyyMMdd_HHmmss').sql"
+    [string]$BackupName = "dsplatform_$(Get-Date -Format 'yyyyMMdd_HHmmss').sql"
 )
 
 $ErrorActionPreference = "Stop"
@@ -31,8 +31,8 @@ Write-Host "`nBacking up database..." -ForegroundColor Green
 Write-Host "Output: $backupFile" -ForegroundColor Gray
 
 try {
-    $env:PGPASSWORD = "mlplatform_dev"
-    docker compose exec -T postgres pg_dump -U mlplatform -d mlplatform --clean --if-exists > $backupFile
+    $env:PGPASSWORD = "dsplatform_dev"
+    docker compose exec -T postgres pg_dump -U dsplatform -d dsplatform --clean --if-exists > $backupFile
     
     if ($LASTEXITCODE -eq 0) {
         $fileSize = (Get-Item $backupFile).Length / 1MB

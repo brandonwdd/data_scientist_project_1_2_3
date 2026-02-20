@@ -83,8 +83,8 @@ cd infra
 ### Service Access Addresses
 
 - **PostgreSQL**: `localhost:5432`
-  - User: `mlplatform`
-  - Password: `mlplatform_dev`
+  - User: `dsplatform`
+  - Password: `dsplatform_dev`
   - **Only three databases**: `churn` / `fraud` / `rag`, one per project; no other DBs
   - project_1_churn_ltv_decisioning uses `POSTGRES_DB=churn`, project_2_fraud_risk_scoring uses `POSTGRES_DB=fraud`, project_3_enterprise_rag_llm uses `POSTGRES_DB=rag`
   - In pgAdmin you will only see these three databases in the tree
@@ -125,7 +125,7 @@ docker compose down
 
 **Restore:**
 ```powershell
-.\scripts\restore-db.ps1 -BackupFile "backups\mlplatform_20240101_120000.sql"
+.\scripts\restore-db.ps1 -BackupFile "backups\dsplatform_20240101_120000.sql"
 ```
 
 ### Optional Monitoring Extension
@@ -273,7 +273,7 @@ docker compose ps postgres
 docker compose logs postgres
 
 # Test connection
-docker compose exec postgres psql -U mlplatform -d churn
+docker compose exec postgres psql -U dsplatform -d churn
 ```
 
 ### Redis Connection Failure
@@ -304,12 +304,12 @@ docker compose exec mlflow python -c "import mlflow; print(mlflow.get_tracking_u
 
 **Manual backup:**
 ```powershell
-docker compose exec postgres pg_dump -U mlplatform churn > backup_churn.sql
+docker compose exec postgres pg_dump -U dsplatform churn > backup_churn.sql
 ```
 
 **Production environment:**
 ```bash
-kubectl exec -n ds-platform <postgres-pod> -- pg_dump -U mlplatform_prod mlplatform > backup.sql
+kubectl exec -n ds-platform <postgres-pod> -- pg_dump -U dsplatform_prod dsplatform > backup.sql
 ```
 
 ### Clean Resources
