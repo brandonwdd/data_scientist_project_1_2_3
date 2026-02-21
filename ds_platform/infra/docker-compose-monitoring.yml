@@ -1,11 +1,3 @@
-# ============================================
-# DS Platform - Monitoring Extensions
-# Optional: Redis and Postgres exporters for detailed metrics
-# ============================================
-# Usage: docker compose -f docker-compose.yml -f docker-compose.monitoring.yml up -d
-
-version: '3.8'
-
 services:
   redis-exporter:
     image: oliver006/redis_exporter:v1.55.0

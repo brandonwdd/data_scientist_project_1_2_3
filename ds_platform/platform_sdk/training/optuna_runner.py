@@ -1,7 +1,4 @@
-"""
-Optuna Runner
-Hyperparameter optimization using Optuna
-"""
+"""Optuna Runner: Hyperparameter optimization using Optuna"""
 
 from typing import Dict, Any, Callable, Optional
 import optuna

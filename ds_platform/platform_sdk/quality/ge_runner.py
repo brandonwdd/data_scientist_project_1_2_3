@@ -1,7 +1,4 @@
-"""
-Great Expectations Runner
-A8.1 Data Quality Gate: GE runner for data quality checks
-"""
+"""Great Expectations Runner A8.1 Data Quality Gate: GE runner for data quality checks"""
 
 from typing import Dict, Any, List, Optional
 import json

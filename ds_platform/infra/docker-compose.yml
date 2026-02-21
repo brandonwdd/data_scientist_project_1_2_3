@@ -1,17 +1,13 @@
-# version is obsolete in Compose V2; omit to avoid warning
 name: ds_platform
 
 services:
   postgres:
     image: postgres:15-alpine
-    build:
-      context: ./postgres
-      dockerfile: Dockerfile
     container_name: infra-postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-dsplatform}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dsplatform_dev}
-      POSTGRES_DB: ${POSTGRES_DB:-churn}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:

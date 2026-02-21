@@ -1,7 +1,4 @@
-"""
-FastAPI Middleware
-Request ID, Logging, Metrics
-"""
+"""FastAPI Middleware: Request ID, Logging, Metrics"""
 
 import time
 import uuid

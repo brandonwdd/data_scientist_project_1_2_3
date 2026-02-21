@@ -1,7 +1,4 @@
-"""
-Promotion Gate Framework
-Platform generic promotion gate evaluator
-"""
+"""Promotion Gate Framework: Platform generic promotion gate evaluator"""
 
 import yaml
 from typing import Dict, Any, Optional

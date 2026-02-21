@@ -1,7 +1,4 @@
-"""
-Audit Schema
-Unified AuditRecord for platform.prediction_audit
-"""
+"""Audit Schema: Unified AuditRecord for platform.prediction_audit"""
 
 from typing import Optional, Dict, Any, List
 from datetime import datetime

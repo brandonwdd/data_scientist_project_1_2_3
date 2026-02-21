@@ -9,8 +9,6 @@ import json
 from platform_sdk.db.pg import get_db
 from platform_sdk.common.config import Config
 
-
-class OnlineFeatureLookup:
     """Online feature lookup from database"""
 
     def __init__(self, domain: str):

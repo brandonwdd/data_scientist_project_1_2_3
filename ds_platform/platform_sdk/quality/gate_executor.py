@@ -1,7 +1,4 @@
-"""
-Data Quality Gate Executor
-A8.1: Unified implementation of execution points and failure strategies
-"""
+"""Data Quality Gate Executor A8.1: Unified implementation of execution points and failure strategies"""
 
 from typing import Dict, Any, Optional, List
 from enum import Enum

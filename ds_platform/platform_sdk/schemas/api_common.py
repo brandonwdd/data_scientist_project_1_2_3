@@ -1,7 +1,4 @@
-"""
-Common API Schemas
-RequestMeta, ErrorResponse, HealthResponse
-"""
+"""Common API Schemas: RequestMeta, ErrorResponse, HealthResponse"""
 
 from typing import Optional, Dict, Any
 from datetime import datetime

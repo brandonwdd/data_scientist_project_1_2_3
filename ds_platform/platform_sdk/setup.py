@@ -1,6 +1,4 @@
-"""
-Platform SDK Setup
-"""
+"""Platform SDK Setup"""
 
 from setuptools import setup, find_packages
 

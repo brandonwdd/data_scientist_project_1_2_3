@@ -1,7 +1,4 @@
-"""
-Evaluation Metrics
-Common evaluation metrics for ML models
-"""
+"""Evaluation Metrics: Common evaluation metrics for ML models"""
 
 from typing import Dict, List, Optional
 import numpy as np

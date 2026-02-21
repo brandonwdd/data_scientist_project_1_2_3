@@ -1,7 +1,4 @@
-"""
-Data Quality Contracts
-Placeholder for GE/Pandera integration
-"""
+"""Data Quality Contracts: Placeholder for GE/Pandera integration"""
 
 from typing import Dict, Any, Optional
 

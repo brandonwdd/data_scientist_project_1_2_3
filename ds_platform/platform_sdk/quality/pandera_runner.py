@@ -1,7 +1,4 @@
-"""
-Pandera Runner
-A8.1 Data Quality Gate: Pandera schema validation
-"""
+"""Pandera Runner: Pandera schema validation"""
 
 from typing import Dict, Any, Optional
 import json

@@ -1,7 +1,4 @@
-"""
-Async Queue (Celery)
-A4.1 Async Worker: Queue component and state machine
-"""
+"""Async Queue (Celery): Queue component and state machine"""
 
 from typing import Dict, Any, Optional, Callable
 from datetime import datetime

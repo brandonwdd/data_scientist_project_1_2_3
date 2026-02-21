@@ -1,13 +1,14 @@
 -- ============================================
 -- Fully separated: churn / fraud / rag three databases, each with only its own schema and tables
--- Server: postgres_ds → Databases: churn, fraud, rag
+-- Server: postgres_ds → Databases: churn, fraud, rag (all created here; container uses POSTGRES_DB=postgres)
 -- ============================================
 
+CREATE DATABASE churn;
 CREATE DATABASE fraud;
 CREATE DATABASE rag;
--- churn database is already created by container POSTGRES_DB=churn
 
 -- ========== Database churn: only schema churn ==========
+\connect churn
 CREATE SCHEMA IF NOT EXISTS churn;
 
 CREATE TABLE IF NOT EXISTS churn.online_features (

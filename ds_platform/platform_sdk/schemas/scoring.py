@@ -1,7 +1,4 @@
-"""
-Scoring API Schemas
-ScoreRequest, ScoreResponse, AsyncScoreRequest, AsyncJobResponse
-"""
+"""Scoring API Schemas: ScoreRequest, ScoreResponse, AsyncScoreRequest, AsyncJobResponse"""
 
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel

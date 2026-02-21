@@ -1,12 +1,21 @@
 # Environment files with secrets
 
-# Kubernetes secrets
+# Kubernetes secrets (never commit real secrets)
 
-# Docker volumes data (if mounted locally)
+# Local backup / dump files
+*.dump
+*.bak
 
-# Backup files
+# Local logs / temp
+logs/
+*.log
+tmp/
 
 # IDE
+.vscode/
+.idea/
+*.iml
 
 # OS
-
+.DS_Store
+Thumbs.db

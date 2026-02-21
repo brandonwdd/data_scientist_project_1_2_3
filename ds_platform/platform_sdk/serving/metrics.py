@@ -1,6 +1,4 @@
-"""
-Prometheus Metrics Endpoint
-"""
+"""Prometheus Metrics Endpoint: Add /metrics endpoint for Prometheus"""
 
 from fastapi import FastAPI
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST

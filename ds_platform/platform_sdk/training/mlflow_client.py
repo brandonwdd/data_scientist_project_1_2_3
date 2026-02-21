@@ -1,7 +1,4 @@
-"""
-MLflow Client Wrapper
-Unified MLflow client with naming conventions
-"""
+"""MLflow Client Wrapper: Unified MLflow client with naming conventions"""
 
 import os
 import mlflow

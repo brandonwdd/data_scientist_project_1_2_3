@@ -1,6 +1,4 @@
-"""
-Health Check Endpoint
-"""
+"""Health Check Endpoint: Add /health endpoint for health check"""
 
 from fastapi import FastAPI
 from datetime import datetime

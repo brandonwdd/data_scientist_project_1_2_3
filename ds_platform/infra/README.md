@@ -1,6 +1,9 @@
 # ML Platform Infrastructure
 
-This directory contains ML platform infrastructure configuration, supporting local development (Docker Compose) and production environments (Kubernetes).
+This directory contains the shared infrastructure for all example ML projects in this repo. It provides a consistent, batteries‑included environment for:
+- **Local development** using Docker Compose (Postgres, Redis, MLflow, Prometheus, Qdrant, optional Grafana)
+- **Monitoring and observability** (Prometheus, alert rules, Grafana dashboards, Redis/Postgres exporters)
+- **Production‑like deployment** templates on Kubernetes (base services + per‑project apps)
 
 ## Directory Structure
 

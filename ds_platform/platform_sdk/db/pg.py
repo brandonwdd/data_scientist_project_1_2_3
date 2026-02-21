@@ -5,7 +5,6 @@ from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import sessionmaker, Session
 from platform_sdk.common.config import Config
 
-
 class Database:
     """Database connection manager"""
 
@@ -36,7 +35,6 @@ class Database:
 
 # Global database instance
 _db: Optional[Database] = None
-
 
 def get_db() -> Database:
     """Get global database instance"""

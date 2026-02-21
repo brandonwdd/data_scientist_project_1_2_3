@@ -1,7 +1,4 @@
-"""
-FastAPI App Factory
-Creates FastAPI app with platform middleware
-"""
+"""FastAPI App Factory: Creates FastAPI app with platform middleware"""
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
