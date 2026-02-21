@@ -1,7 +1,4 @@
-"""
-Database Models (Optional)
-SQLAlchemy models: schema is determined by POSTGRES_SCHEMA (churn / fraud / rag).
-"""
+"""Database Models"""
 
 import os
 from typing import Optional

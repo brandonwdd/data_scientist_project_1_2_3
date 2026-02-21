@@ -1,13 +1,9 @@
-"""
-Logging Configuration
-Unified logging setup for platform
-"""
+"""Logging Configuration"""
 
 import logging
 import sys
 from typing import Optional
 from platform_sdk.common.config import Config
-
 
 def setup_logging(
     name: str,

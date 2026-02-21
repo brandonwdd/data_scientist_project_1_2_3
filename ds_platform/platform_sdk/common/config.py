@@ -1,12 +1,8 @@
-"""
-Configuration Management
-Loads configuration from environment variables and config files
-"""
+"""Configuration Management"""
 
 import os
 from typing import Optional, Dict, Any
 from pathlib import Path
-
 
 class Config:
     """Platform configuration"""

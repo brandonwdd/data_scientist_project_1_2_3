@@ -1,7 +1,4 @@
-"""
-Audit Writer
-Utility functions for writing to platform.prediction_audit table
-"""
+"""Audit Writer"""
 
 from typing import Optional
 from platform_sdk.schemas.audit import AuditRecord
@@ -10,7 +7,6 @@ from platform_sdk.db.models import PredictionAudit
 from platform_sdk.common.logging import setup_logging
 
 logger = setup_logging(__name__)
-
 
 def write_audit(audit_record: AuditRecord) -> bool:
     """

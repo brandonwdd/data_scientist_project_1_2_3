@@ -1,10 +1,6 @@
-"""
-Minimal smoke tests for Platform SDK.
-Used by CI to verify core components load and behave.
-"""
+"""Minimal smoke tests for Platform SDK"""
 
 import pytest
-
 
 def test_promotion_gate_evaluate_min():
     """PromotionGate: *_min threshold passes when value >= threshold."""

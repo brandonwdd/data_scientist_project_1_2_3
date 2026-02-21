@@ -1,6 +1,4 @@
-"""
-PostgreSQL Database Connection
-"""
+"""PostgreSQL Database Connection"""
 
 from typing import Optional
 from sqlalchemy import create_engine, Engine
