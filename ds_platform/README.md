@@ -1,4 +1,4 @@
-# ML Platform
+# DS Platform
 
 Shared Foundation (SDK + infra + common specifications)
 
