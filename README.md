@@ -1,4 +1,4 @@
-# Project 1 – Churn & LTV Decisioning Service
+# Project 1 – Churn & Lifetime Value Decisioning Service
 
 ---
 
@@ -272,7 +272,7 @@ If you use **full infra** (Redis, MLflow, etc.): from `ds_platform/infra` run `d
 
 ---
 
-# Project 2 – Fraud / Risk Scoring System
+# Project 2 – Fraud $ Risk Scoring System
 
 ---
 
