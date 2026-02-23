@@ -1,3 +1,1 @@
-"""
-Evaluation Metrics and Protocol
-"""
+# Evaluation metrics and protocol.

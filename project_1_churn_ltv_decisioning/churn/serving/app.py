@@ -1,8 +1,4 @@
-"""
-FastAPI Serving Application
-Provides /score (sync) and /score_async (async) endpoints
-Uses platform_sdk for unified middleware and utilities
-"""
+"""Churn FastAPI: /score and /score_async; platform_sdk middleware."""
 
 import sys
 from pathlib import Path

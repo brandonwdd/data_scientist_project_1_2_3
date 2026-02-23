@@ -1,8 +1,4 @@
-"""
-RAG Serving (D9)
-POST /ask, /retrieve, /evaluate/run, /feedback.
-Reuse RequestMeta; /ask schema defined within project.
-"""
+"""RAG serving: POST /ask, /retrieve, /evaluate/run, /feedback."""
 
 import sys
 import uuid

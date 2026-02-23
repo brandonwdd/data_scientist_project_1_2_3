@@ -1,7 +1,4 @@
-"""
-Fraud Model Explainability
-SHAP-based explanations for fraud risk scores
-"""
+"""SHAP explainability for fraud risk scores."""
 
 from typing import Dict, List, Optional
 import pandas as pd

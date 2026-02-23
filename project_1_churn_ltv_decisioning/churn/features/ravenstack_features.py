@@ -1,8 +1,4 @@
-"""
-RavenStack feature engineering (pandas only).
-Output columns match feature_spec: active_days_30d, sessions_7d, ... plan_tier.
-Used for local runs; S3/Spark path unchanged.
-"""
+"""RavenStack feature engineering (pandas; matches feature_spec)."""
 
 from typing import List
 from datetime import datetime, timedelta

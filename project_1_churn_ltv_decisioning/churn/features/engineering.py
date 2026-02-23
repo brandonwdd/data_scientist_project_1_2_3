@@ -1,7 +1,4 @@
-"""
-Feature Engineering
-Computes features according to feature_spec.yaml
-"""
+"""Feature engineering from feature_spec.yaml."""
 
 from typing import Dict, List, Optional
 from datetime import datetime, timedelta

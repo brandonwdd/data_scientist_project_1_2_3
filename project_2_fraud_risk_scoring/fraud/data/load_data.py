@@ -1,7 +1,4 @@
-"""
-Data Loading Module for Fraud
-Loads data from S3 (parquet) and Postgres
-"""
+"""Fraud data: S3 (parquet) and Postgres."""
 
 import os
 from typing import List, Optional

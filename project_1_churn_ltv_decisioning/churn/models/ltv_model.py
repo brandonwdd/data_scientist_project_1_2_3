@@ -1,8 +1,4 @@
-"""
-LTV Prediction Model
-Option A: BG/NBD + Gamma-Gamma (statistical)
-Option B: LightGBM regression + calibration
-"""
+"""LTV model: BG/NBD + Gamma-Gamma or LightGBM + calibration."""
 
 from typing import Dict, Optional
 import numpy as np

@@ -1,7 +1,4 @@
-"""
-Explainability Module
-SHAP explanations for Churn and LTV models
-"""
+"""SHAP explanations for churn and LTV models."""
 
 from typing import Dict, List, Optional
 import numpy as np

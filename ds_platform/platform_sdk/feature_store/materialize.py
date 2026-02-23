@@ -1,7 +1,4 @@
-"""
-Feature Materialization
-Materialize features to online store (platform.online_features)
-"""
+"""Materialize features to platform.online_features."""
 
 from typing import Dict, List, Optional
 from datetime import datetime

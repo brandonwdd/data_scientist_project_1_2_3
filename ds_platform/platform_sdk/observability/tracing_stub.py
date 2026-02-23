@@ -1,7 +1,4 @@
-"""
-Tracing Stub
-Distributed tracing support (stub implementation)
-"""
+"""Distributed tracing (stub)."""
 
 from typing import Optional, Dict, Any
 from contextlib import contextmanager

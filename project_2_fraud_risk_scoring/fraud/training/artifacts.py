@@ -1,7 +1,4 @@
-"""
-MLflow Artifacts Generation for Fraud
-Generates all required artifacts for promotion gate
-"""
+"""MLflow artifacts for fraud promotion gate."""
 
 import os
 import json

@@ -1,7 +1,4 @@
-"""
-Rollback Mechanism for Fraud Service
-Rollback runbook implementation (stricter SLO: 80ms p95, 0.1% 5xx)
-"""
+"""Fraud rollback runbook (SLO: 80ms p95, 0.1% 5xx)."""
 
 from typing import Dict, Optional
 from datetime import datetime, timedelta

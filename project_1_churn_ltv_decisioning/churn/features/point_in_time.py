@@ -1,7 +1,4 @@
-"""
-Point-in-Time Join
-Ensures training samples only use features available before label_time
-"""
+"""Point-in-time join: features only before label_time."""
 
 from typing import List, Optional
 from datetime import datetime

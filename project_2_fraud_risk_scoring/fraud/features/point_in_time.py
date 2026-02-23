@@ -1,7 +1,4 @@
-"""
-Point-in-Time Join for Fraud
-Ensures training samples only use features available before label_time
-"""
+"""Point-in-time join for fraud (no leakage)."""
 
 from typing import List, Optional
 from datetime import datetime

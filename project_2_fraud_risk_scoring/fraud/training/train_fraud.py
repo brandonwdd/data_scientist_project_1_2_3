@@ -1,7 +1,4 @@
-"""
-Train Fraud Model
-Main training script that integrates with MLflow
-"""
+"""Train fraud model; MLflow integration."""
 
 import os
 import sys

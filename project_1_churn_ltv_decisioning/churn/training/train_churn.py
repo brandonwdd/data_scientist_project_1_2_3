@@ -1,7 +1,4 @@
-"""
-Train Churn Model
-Main training script that integrates with MLflow
-"""
+"""Train churn model; MLflow integration."""
 
 import os
 import sys

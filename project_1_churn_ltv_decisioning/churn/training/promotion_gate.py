@@ -1,7 +1,4 @@
-"""
-Promotion Gate Evaluation
-Evaluates if model meets promotion criteria
-"""
+"""Promotion gate evaluation for model promotion criteria."""
 
 from typing import Dict
 

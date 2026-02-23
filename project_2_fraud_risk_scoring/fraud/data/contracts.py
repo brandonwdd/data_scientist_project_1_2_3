@@ -1,7 +1,4 @@
-"""
-Data Contracts for Fraud Project
-Defines data schemas and validation rules
-"""
+"""Fraud data contracts and validation."""
 
 from typing import Optional, List
 from datetime import datetime

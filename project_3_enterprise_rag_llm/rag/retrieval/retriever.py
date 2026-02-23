@@ -1,8 +1,4 @@
-"""
-Retrieval Stack (D5)
-BM25, Dense (sentence-transformers + FAISS/Qdrant), Rerank (optional).
-Versioning: index_version, prompt_version, retriever_version.
-"""
+"""Retrieval: BM25, dense (FAISS/Qdrant), rerank; versioning."""
 
 from typing import List, Dict, Any, Optional
 from datetime import datetime

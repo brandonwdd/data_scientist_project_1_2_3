@@ -1,7 +1,4 @@
-"""
-Evaluation Harness (D7)
-ragas + evaluate, citation accuracy (D7.1), ablation.
-"""
+# Eval harness: ragas, citation accuracy, ablation.
 
 from rag.evaluation.metrics import run_eval, compute_citation_accuracy
 

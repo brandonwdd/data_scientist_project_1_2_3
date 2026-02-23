@@ -1,7 +1,4 @@
-"""
-Drift Monitoring Job
-B11: Daily drift monitoring with PSI/KS
-"""
+"""Drift monitoring (PSI/KS)."""
 
 from typing import Dict, Optional
 from datetime import datetime, timedelta

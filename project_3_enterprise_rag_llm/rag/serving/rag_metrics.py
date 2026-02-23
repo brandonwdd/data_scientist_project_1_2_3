@@ -1,7 +1,4 @@
-"""
-RAG-specific Prometheus metrics (D2/D7/D8).
-latency, token cost, citation coverage.
-"""
+"""RAG Prometheus metrics: latency, token cost, citation coverage."""
 
 from __future__ import annotations
 

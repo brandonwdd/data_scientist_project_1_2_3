@@ -1,7 +1,4 @@
-"""
-Fraud Scoring Service
-Handles model loading, feature lookup, and prediction
-"""
+"""Fraud scoring: model load, feature lookup, prediction."""
 
 from typing import Dict, Optional, Any
 import os

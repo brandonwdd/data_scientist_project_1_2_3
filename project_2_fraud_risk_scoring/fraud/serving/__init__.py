@@ -1,3 +1,1 @@
-"""
-Fraud Serving
-"""
+# Fraud serving.

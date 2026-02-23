@@ -1,9 +1,4 @@
-"""
-Churn Prediction Model
-Baseline: Logistic Regression
-Main: LightGBM/XGBoost
-With calibration: Isotonic / Platt
-"""
+"""Churn model: LogReg baseline, LightGBM/XGBoost + calibration."""
 
 from typing import Dict, Optional, Tuple
 import numpy as np

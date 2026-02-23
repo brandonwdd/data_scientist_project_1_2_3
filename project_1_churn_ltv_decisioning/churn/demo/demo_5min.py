@@ -1,7 +1,4 @@
-"""
-5-Minute Demo Script
-Demonstrates the complete workflow
-"""
+"""5-min churn demo workflow."""
 
 import os
 import sys

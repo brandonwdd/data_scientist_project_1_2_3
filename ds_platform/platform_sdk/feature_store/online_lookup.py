@@ -1,7 +1,4 @@
-"""
-Online Feature Lookup
-Query features from platform.online_features
-"""
+"""Query features from platform.online_features."""
 
 from typing import Dict, Optional, List
 from datetime import datetime

@@ -1,7 +1,4 @@
-"""
-Async Tasks for Churn Service
-Process batch scoring tasks using Celery
-"""
+"""Churn async batch scoring (Celery)."""
 
 import sys
 from pathlib import Path

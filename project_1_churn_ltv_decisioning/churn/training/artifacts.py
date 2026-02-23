@@ -1,7 +1,4 @@
-"""
-MLflow Artifacts Generation
-Generates all required artifacts for promotion gate
-"""
+"""MLflow artifacts for churn promotion gate."""
 
 import os
 import json

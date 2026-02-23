@@ -1,7 +1,4 @@
-"""
-Offline Evaluation Protocol
-Rolling window time split with stratified evaluation
-"""
+"""Offline eval protocol: rolling time split, stratified."""
 
 from typing import Dict, List, Tuple
 from datetime import datetime, timedelta

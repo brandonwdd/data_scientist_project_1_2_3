@@ -1,7 +1,4 @@
-"""
-Policy Engine
-Policy engine: makes decisions based on risk score and business rules
-"""
+# Policy engine (risk score + rules).
 
 from fraud.policy.policy_engine import PolicyEngine
 

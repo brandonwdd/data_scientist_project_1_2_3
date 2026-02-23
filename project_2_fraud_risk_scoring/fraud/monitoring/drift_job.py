@@ -1,7 +1,4 @@
-"""
-Drift Monitoring Job
-Daily drift monitoring with drift loop (continuous monitoring)
-"""
+"""Fraud drift monitoring (daily loop)."""
 
 from typing import Dict, Any, Optional
 from datetime import datetime, timedelta

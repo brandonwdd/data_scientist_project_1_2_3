@@ -1,7 +1,4 @@
-"""
-Rollback Mechanism
-B11: Rollback runbook implementation
-"""
+"""Rollback runbook (churn)."""
 
 from typing import Dict, Optional
 from datetime import datetime, timedelta

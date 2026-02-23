@@ -1,7 +1,4 @@
-"""
-Ingestion & Chunking (D4)
-"""
-
+# Ingestion & chunking.
 from rag.ingestion.chunker import Chunker
 from rag.ingestion.parsers import PdfParser, UnstructuredParser
 

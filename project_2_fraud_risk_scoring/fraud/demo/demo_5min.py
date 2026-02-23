@@ -1,7 +1,4 @@
-"""
-5-Minute Demo Script for Fraud Service
-Demonstrates the complete workflow
-"""
+"""5-min fraud demo workflow."""
 
 import os
 import sys

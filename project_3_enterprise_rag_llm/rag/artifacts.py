@@ -1,9 +1,4 @@
-"""
-MLflow Artifacts (D12)
-eval_metrics.json, ragas_report.json, latency_report.json, cost_report.json,
-citation_coverage_report.json, ablation_table.csv, retrieval_curves.png,
-prompt_version.txt, index_manifest.json, model_card.md, known_failure_cases.md.
-"""
+"""MLflow artifacts: eval, ragas, latency, cost, citation, ablation, model_card."""
 
 import json
 import csv

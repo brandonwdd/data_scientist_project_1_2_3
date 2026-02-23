@@ -1,8 +1,4 @@
-"""
-Async tasks for RAG (Production)
-
-- rag.evaluate_run: run eval + gate, persist result in platform.async_jobs.result
-"""
+"""RAG async: run eval + gate, persist to platform.async_jobs."""
 
 import os
 import sys

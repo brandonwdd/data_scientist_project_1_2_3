@@ -1,6 +1,4 @@
-"""
-Evaluation Metrics for Churn + LTV + Decisioning
-"""
+"""Churn + LTV + decisioning evaluation metrics."""
 
 from typing import Dict, List, Optional
 import numpy as np

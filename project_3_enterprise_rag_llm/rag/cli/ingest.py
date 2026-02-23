@@ -1,11 +1,4 @@
-"""
-Production ingest: PDFs → chunks jsonl → optional /index/build.
-PDF directory is fixed at project_3_enterprise_rag_llm/rag/data; place your PDFs there.
-
-Usage:
-  python -m rag.cli.ingest --out data/chunks.jsonl
-  python -m rag.cli.ingest --out data/chunks.jsonl --build-index --rag-url http://localhost:8002
-"""
+"""Production ingest: PDFs → chunks jsonl; optional --build-index."""
 
 from __future__ import annotations
 

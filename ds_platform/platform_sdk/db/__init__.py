@@ -1,4 +1,4 @@
-"""Database Utilities"""
+# Database Utilities
 
 from platform_sdk.db.pg import get_db, Database
 from platform_sdk.db.models import (

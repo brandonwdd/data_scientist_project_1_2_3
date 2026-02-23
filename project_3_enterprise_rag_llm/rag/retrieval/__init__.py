@@ -1,8 +1,4 @@
-"""
-Retrieval Stack & Versioning (D5)
-BM25, Dense, Rerank, index_version / prompt_version / retriever_version
-"""
-
+# Retrieval stack & versioning (BM25, dense, rerank).
 from rag.retrieval.retriever import RetrieverStack
 
 __all__ = ["RetrieverStack"]

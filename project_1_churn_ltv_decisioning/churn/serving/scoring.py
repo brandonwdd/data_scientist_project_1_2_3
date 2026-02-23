@@ -1,7 +1,4 @@
-"""
-Scoring Service
-Handles model loading, feature lookup, and prediction
-"""
+"""Churn scoring: model load, feature lookup, prediction."""
 
 from typing import Dict, Optional, List
 import os

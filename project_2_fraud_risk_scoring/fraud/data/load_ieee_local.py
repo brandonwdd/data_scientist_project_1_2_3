@@ -1,8 +1,4 @@
-"""
-Local IEEE-CIS Fraud Data Loader (Option B)
-Reads from fraud/data/ieee_fraud/ CSV files, returns one flat table for training.
-Does not touch or replace the S3 DataLoader in load_data.py.
-"""
+"""Local IEEE-CIS CSV loader (fraud/data/ieee_fraud/)."""
 
 import os
 from pathlib import Path

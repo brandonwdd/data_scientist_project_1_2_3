@@ -1,9 +1,4 @@
-"""
-Eval set IO (D7)
-
-Eval set jsonl format (recommended):
-{"query": "...", "gold_answer": "...", "gold_evidence": [{"chunk_id": "...", "page": 3}, ...]}
-"""
+"""Eval set IO (D7). JSONL format: query, gold_answer, gold_evidence[{chunk_id, page}]."""
 
 from __future__ import annotations
 

@@ -1,8 +1,4 @@
-"""
-Feedback Loop (D10)
-Weekly job: sample low score/low faithfulness requests → hard_set.jsonl.
-Hard set drives: chunking adjustments / reranker data augmentation / router fine-tuning.
-"""
+"""Feedback: low score/faithfulness → hard_set.jsonl for chunking/reranker/router."""
 
 import json
 from pathlib import Path

@@ -1,7 +1,4 @@
-"""
-Generation & Guardrails (D6)
-Prompt enforces citation format; returns "I don't know" when no evidence.
-"""
+"""Generation & Guardrails (D6). Prompt enforces citation format; returns 'I don't know' when no evidence."""
 
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass

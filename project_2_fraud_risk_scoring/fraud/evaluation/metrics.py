@@ -1,6 +1,4 @@
-"""
-Evaluation Metrics for Fraud Risk Scoring
-"""
+"""Fraud evaluation metrics."""
 
 from typing import Dict, List, Optional
 import numpy as np

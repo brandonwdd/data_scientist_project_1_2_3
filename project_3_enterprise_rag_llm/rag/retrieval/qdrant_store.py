@@ -1,7 +1,4 @@
-"""
-Qdrant vector store (production).
-Collections = index_version. Upsert embeddings + payload (chunk_id, source_id, page, etc.).
-"""
+"""Qdrant vector store; collections = index_version."""
 
 from __future__ import annotations
 

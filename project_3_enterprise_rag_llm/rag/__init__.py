@@ -1,4 +1,1 @@
-"""
-Enterprise RAG System
-Enterprise knowledge base RAG + evaluation gate + cost routing
-"""
+# Enterprise RAG: knowledge base + eval gate + cost routing.

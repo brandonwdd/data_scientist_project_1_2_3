@@ -1,7 +1,4 @@
-"""
-Evaluation Protocol for Fraud
-Rolling evaluation with time-based splits
-"""
+"""Fraud eval protocol (rolling time splits)."""
 
 from typing import Dict, List, Tuple, Optional
 from datetime import datetime, timedelta

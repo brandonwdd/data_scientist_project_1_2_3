@@ -1,4 +1,1 @@
-"""
-Fraud / Risk Scoring System
-Risk scoring and policy engine
-"""
+# Fraud / risk scoring and policy engine.

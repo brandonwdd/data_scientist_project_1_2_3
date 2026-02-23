@@ -13,7 +13,17 @@ env/
 # IDE
 .idea/
 .vscode/
+*.iml
 
 # OS
 .DS_Store
 Thumbs.db
+
+# Local backup / dump files
+*.dump
+*.bak
+
+# Local logs / temp
+logs/
+*.log
+tmp/

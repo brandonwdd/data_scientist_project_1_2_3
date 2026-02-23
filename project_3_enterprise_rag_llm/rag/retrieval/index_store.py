@@ -1,11 +1,4 @@
-"""
-Index persistence (Production)
-
-- Save/load chunk corpus + dense embeddings to local disk
-- Track index_version manifest
-
-Note: For full production, you may switch dense store to Qdrant and keep only metadata locally.
-"""
+"""Index persistence: save/load chunks + embeddings; index_version manifest."""
 
 from __future__ import annotations
 

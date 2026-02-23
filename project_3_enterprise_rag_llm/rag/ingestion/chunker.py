@@ -1,8 +1,4 @@
-"""
-Chunking (D4)
-Split by heading hierarchy, overlap, metadata: source_id/page/section/created_at/hash
-Output: chunks parquet (S3)
-"""
+"""Chunking: by heading/overlap; output chunks parquet."""
 
 from typing import List, Dict, Any, Optional
 from datetime import datetime

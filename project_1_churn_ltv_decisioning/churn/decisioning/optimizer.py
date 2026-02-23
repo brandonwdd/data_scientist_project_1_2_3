@@ -1,8 +1,4 @@
-"""
-Decisioning Layer: Budget-Constrained Profit Maximization
-Baseline: Greedy algorithm
-Optional: 0/1 Knapsack or ILP
-"""
+"""Decisioning: budget-constrained profit (greedy / knapsack / ILP)."""
 
 from typing import List, Dict, Optional, Tuple
 import numpy as np

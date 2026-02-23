@@ -1,7 +1,4 @@
-"""
-Backtest Framework
-Rolling window backtest for decisioning policy
-"""
+"""Rolling-window backtest for decisioning policy."""
 
 from typing import Dict, List, Optional, Tuple
 from datetime import datetime, timedelta

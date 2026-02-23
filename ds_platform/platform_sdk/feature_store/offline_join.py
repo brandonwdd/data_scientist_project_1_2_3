@@ -1,7 +1,4 @@
-"""
-Offline Feature Join
-Point-in-time join for training data
-"""
+"""Offline point-in-time join for training data."""
 
 from typing import Dict, List, Optional
 from datetime import datetime

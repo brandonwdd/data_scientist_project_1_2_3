@@ -1,7 +1,4 @@
-"""
-Router (D6)
-FAQ/short queries → cheap path; complex queries → full RAG (+ rerank).
-"""
+"""Router: FAQ/short → cheap path; complex → full RAG + rerank."""
 
 from typing import Literal
 

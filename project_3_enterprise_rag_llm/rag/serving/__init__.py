@@ -1,4 +1,1 @@
-"""
-Serving (D9)
-POST /ask, /retrieve, /evaluate/run, /feedback.
-"""
+# Serving: /ask, /retrieve, /evaluate/run, /feedback.

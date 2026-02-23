@@ -1,8 +1,4 @@
-"""
-Drift Baseline
-A9.1: Drift Baseline and Report Implementation
-Generate and store drift baseline (feature/score distributions from training or validation period)
-"""
+"""Drift baseline: feature/score distributions from train/val period."""
 
 from typing import Dict, Any, Optional, List
 from datetime import datetime

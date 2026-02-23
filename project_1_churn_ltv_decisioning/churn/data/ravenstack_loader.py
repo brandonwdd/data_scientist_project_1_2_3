@@ -1,7 +1,4 @@
-"""
-RavenStack data loader for local CSV files.
-Loads saas_churn_ltv tables and produces churn/LTV labels.
-"""
+"""RavenStack local CSV loader: saas_churn_ltv tables → churn/LTV labels."""
 
 from pathlib import Path
 from datetime import datetime, timedelta

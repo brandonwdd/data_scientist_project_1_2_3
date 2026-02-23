@@ -1,11 +1,4 @@
-"""
-Production LLM client (OpenAI-compatible HTTP)
-
-Works with:
-- OpenAI API (if you point base_url to https://api.openai.com/v1)
-- vLLM OpenAI-compatible server
-- Any OpenAI-compatible gateway
-"""
+"""LLM client (OpenAI-compatible HTTP)."""
 
 from __future__ import annotations
 

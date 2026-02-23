@@ -1,8 +1,4 @@
-"""
-Eval Gate (D8)
-Promotion gate: faithfulness, answer_relevancy, context recall/precision,
-citation_coverage, D8.1 evidence_recall_at_k / citation_accuracy.
-"""
+"""Eval gate: promotion thresholds (faithfulness, relevancy, citation, evidence recall)."""
 
 import yaml
 from pathlib import Path

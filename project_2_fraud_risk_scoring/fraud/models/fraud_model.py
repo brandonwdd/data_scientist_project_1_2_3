@@ -1,7 +1,4 @@
-"""
-Fraud Risk Model
-Risk control scoring model
-"""
+"""Fraud risk scoring model."""
 
 from typing import Optional, Dict, Any
 import pandas as pd

@@ -1,7 +1,4 @@
-"""
-Async Tasks for Fraud Service
-Process batch scoring tasks using Celery
-"""
+"""Fraud async batch scoring (Celery)."""
 
 import sys
 from pathlib import Path

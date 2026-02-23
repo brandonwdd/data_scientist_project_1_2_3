@@ -1,7 +1,4 @@
-"""
-Train Churn + LTV on RavenStack local data (no S3/Spark).
-Uses churn/data/saas_churn_ltv/ CSVs. S3 path remains default elsewhere.
-"""
+"""Train churn+LTV on RavenStack local CSVs (no S3/Spark)."""
 
 import os
 import sys

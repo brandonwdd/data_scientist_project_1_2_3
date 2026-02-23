@@ -1,7 +1,4 @@
-"""
-Drift Reporter
-A9.1: Drift job output (Prometheus metrics + MLflow artifact)
-"""
+"""Drift reporter: Prometheus metrics + MLflow artifact."""
 
 from typing import Dict, Any, Optional
 from datetime import datetime

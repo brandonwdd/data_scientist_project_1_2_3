@@ -1,7 +1,4 @@
-"""
-Drift Detection Helpers
-PSI, KS, ECE calculations
-"""
+"""Drift helpers: PSI, KS, ECE."""
 
 import numpy as np
 import pandas as pd

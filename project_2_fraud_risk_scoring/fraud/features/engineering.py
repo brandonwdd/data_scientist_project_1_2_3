@@ -1,7 +1,4 @@
-"""
-Feature Engineering for Fraud
-Computes features according to feature_spec.yaml
-"""
+"""Fraud feature engineering (feature_spec.yaml)."""
 
 from typing import Dict, List, Optional
 from datetime import datetime, timedelta

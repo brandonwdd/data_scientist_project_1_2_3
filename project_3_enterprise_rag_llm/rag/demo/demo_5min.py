@@ -1,8 +1,4 @@
-"""
-5-Min Demo (D13)
-ingest 10 PDFs → build index → run eval gate (show metrics) → /ask returns citations
-→ /feedback writes to DB → dashboard shows cost/latency/citation coverage
-"""
+"""5-min demo: PDFs → index → eval gate → /ask with citations → /feedback → dashboard."""
 
 import os
 import sys

@@ -1,10 +1,4 @@
-"""
-Evaluation Harness (D7)
-Eval set: query / gold answer / gold evidence (chunk_id + page).
-Metrics: faithfulness, answer_relevancy, context recall/precision, latency, cost.
-D7.1: Evidence Recall@k, Citation Accuracy.
-Ablation: BM25-only / dense-only / hybrid+rerank.
-"""
+"""Eval harness: faithfulness, relevancy, context recall/precision, citation accuracy."""
 
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass

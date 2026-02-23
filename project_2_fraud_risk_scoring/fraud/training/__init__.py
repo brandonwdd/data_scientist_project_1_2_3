@@ -1,3 +1,1 @@
-"""
-Training Scripts
-"""
+# Training scripts.

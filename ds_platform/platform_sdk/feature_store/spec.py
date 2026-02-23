@@ -1,7 +1,4 @@
-"""
-Feature Specification Parser
-Parse and validate feature_spec.yaml
-"""
+"""Parse and validate feature_spec.yaml."""
 
 import yaml
 import pandas as pd

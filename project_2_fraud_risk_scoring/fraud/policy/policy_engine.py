@@ -1,8 +1,4 @@
-"""
-Policy Engine
-Policy engine: makes decisions based on risk score and business rules
-Decision: APPROVE / REJECT / MANUAL_REVIEW
-"""
+"""Policy engine: risk score + rules → APPROVE/REJECT/MANUAL_REVIEW."""
 
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
