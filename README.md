@@ -272,7 +272,7 @@ If you use **full infra** (Redis, MLflow, etc.): from `ds_platform/infra` run `d
 
 ---
 
-# Project 2 – Fraud $ Risk Scoring System
+# Project 2 – Fraud & Risk Scoring System
 
 ---
 
