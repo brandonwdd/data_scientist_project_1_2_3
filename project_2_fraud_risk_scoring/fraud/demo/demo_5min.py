@@ -46,7 +46,7 @@ def main():
     check_prometheus()
     
     print("\n" + "=" * 60)
-    print("Demo completed! ✓")
+    print("Demo completed!")
     print("=" * 60)
     print("\nNext steps:")
     print("  1. View MLflow UI: http://localhost:5000")
@@ -60,21 +60,21 @@ def check_infrastructure():
         # Check MLflow
         response = requests.get("http://localhost:5000/health", timeout=2)
         if response.status_code == 200:
-            print("  ✓ MLflow is running")
+            print("  [OK] MLflow is running")
         else:
-            print("  ✗ MLflow not accessible")
+            print("  [FAIL] MLflow not accessible")
     except:
-        print("  ✗ MLflow not running (start with: cd ds_platform/infra && docker compose up -d)")
+        print("  [FAIL] MLflow not running (start with: cd ds_platform/infra && docker compose up -d)")
     
     try:
         # Check Prometheus
         response = requests.get("http://localhost:9090/-/healthy", timeout=2)
         if response.status_code == 200:
-            print("  ✓ Prometheus is running")
+            print("  [OK] Prometheus is running")
         else:
-            print("  ✗ Prometheus not accessible")
+            print("  [FAIL] Prometheus not accessible")
     except:
-        print("  ✗ Prometheus not running")
+        print("  [FAIL] Prometheus not running")
 
 
 def check_mlflow():
@@ -83,16 +83,16 @@ def check_mlflow():
         import mlflow
         mlflow.set_tracking_uri("http://localhost:5000")
         experiments = mlflow.search_experiments()
-        print(f"  ✓ Found {len(experiments)} experiments in MLflow")
+        print(f"  [OK] Found {len(experiments)} experiments in MLflow")
         
         # List recent runs
         runs = mlflow.search_runs(experiment_ids=[exp.experiment_id for exp in experiments[:1]], max_results=5)
         if len(runs) > 0:
-            print(f"  ✓ Found {len(runs)} recent runs")
+            print(f"  [OK] Found {len(runs)} recent runs")
         else:
             print("  → No runs yet (train model to create runs)")
     except Exception as e:
-        print(f"  ✗ MLflow check failed: {e}")
+        print(f"  [OK] MLflow check failed: {e}")
 
 
 def test_api():
@@ -101,9 +101,9 @@ def test_api():
         # Test health endpoint
         response = requests.get("http://localhost:8001/health", timeout=2)
         if response.status_code == 200:
-            print("  ✓ Service is healthy")
+            print("  [OK] Service is healthy")
         else:
-            print("  ✗ Service not healthy")
+            print("  [FAIL] Service not healthy")
             return
         
         # Test score endpoint
@@ -119,21 +119,21 @@ def test_api():
         
         if response.status_code == 200:
             result = response.json()
-            print(f"  ✓ Score API working")
+            print(f"  [OK] Score API working")
             print(f"    - Transaction: {result.get('transaction_id')}")
             print(f"    - Risk Score: {result.get('risk_score', 0):.4f}")
             print(f"    - Decision: {result.get('decision')}")
             print(f"    - Reason: {result.get('reason')}")
             print(f"    - Latency: {result.get('latency_ms', 0)}ms")
         else:
-            print(f"  ✗ Score API failed: {response.status_code}")
+            print(f"  [FAIL] Score API failed: {response.status_code}")
             print(f"    Response: {response.text}")
     
     except requests.exceptions.ConnectionError:
-        print("  ✗ Service not running")
+        print("  [FAIL] Service not running")
         print("    Start with: uvicorn fraud.serving.app:app")
     except Exception as e:
-        print(f"  ✗ API test failed: {e}")
+        print(f"  [FAIL] API test failed: {e}")
 
 
 def check_prometheus():
@@ -141,12 +141,12 @@ def check_prometheus():
     try:
         response = requests.get("http://localhost:9090/api/v1/query?query=up", timeout=2)
         if response.status_code == 200:
-            print("  ✓ Prometheus is queryable")
+            print("  [OK] Prometheus is queryable")
             print("    → View metrics: http://localhost:9090")
         else:
-            print("  ✗ Prometheus not queryable")
+            print("  [FAIL] Prometheus not queryable")
     except Exception as e:
-        print(f"  ✗ Prometheus check failed: {e}")
+        print(f"  [FAIL] Prometheus check failed: {e}")
 
 
 if __name__ == "__main__":

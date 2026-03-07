@@ -132,13 +132,13 @@ def main():
                 artifact_path="model",
                 registered_model_name="churn_churnrisk"
             )
-            print("✓ Model promoted to registry")
+            print("Model promoted to registry")
             print(f"  Gate checks: {len([c for c in gate_result['details'] if c['passed']])}/{len(gate_result['details'])} passed")
         else:
-            print("✗ Promotion gate failed")
+            print("Promotion gate failed")
             for check in gate_result["details"]:
                 if not check["passed"]:
-                    print(f"  ✗ {check['metric']}: {check['value']:.4f} (threshold: {check['threshold']})")
+                    print(f"  [FAIL] {check['metric']}: {check['value']:.4f} (threshold: {check['threshold']})")
         
         print(f"Run ID: {run.info.run_id}")
         print(f"MLflow UI: {mlflow.get_tracking_uri()}")
