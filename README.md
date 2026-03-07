@@ -108,7 +108,7 @@ This project lives in `project_1_churn_ltv_decisioning/`, with `churn/` structur
 
 - **Docker Compose** (`ds_platform/infra/docker-compose.yml`) defines:
 
-| Service | Image | Port (default) | Purpose |
+| Service | Image | Port | Purpose |
 |---------|--------|----------------|---------|
 | postgres | postgres:15-alpine | 5432 | DB for churn/fraud/rag (init.sql creates DBs + schemas). |
 | redis | redis:7-alpine | 6379 | Broker / cache. |
@@ -290,7 +290,7 @@ If you use **full infra** (Redis, MLflow, etc.): from `ds_platform/infra` run `d
 
 ### 1. Project Overview – What & Why
 
-- **Goal**: Build an **online fraud / risk scoring service** to reduce fraud and chargebacks while controlling customer friction.  
+- **Goal**: Build an **online fraud + risk scoring service** to reduce fraud and chargebacks while controlling customer friction.  
 - **Tasks**:
   - Predict a **transaction-level fraud risk score** in \[0, 1\].
   - Convert the risk score into a **business decision**: `APPROVE`, `REJECT`, or `MANUAL_REVIEW`.
@@ -306,35 +306,29 @@ If you use **full infra** (Redis, MLflow, etc.): from `ds_platform/infra` run `d
 - **Data source**: IEEE-CIS Fraud Detection  
   Reference: [`https://www.kaggle.com/competitions/ieee-fraud-detection/data`](https://www.kaggle.com/competitions/ieee-fraud-detection/data)
 - **Raw data**:
-  - Under `project_2_fraud_risk_scoring/fraud/data/ieee_fraud/`:
-    - `train_transaction.csv`
-    - `train_identity.csv`
-    - `test_transaction.csv`
-    - `test_identity.csv`
-    - `sample_submission.csv`
+  - Transaction and identity CSVs under `project_2_fraud_risk_scoring/fraud/data/ieee_fraud/`.
 - **Problem formulation**:
   - **Entity**: `transaction_id`.
   - **Label**: `isFraud` (0 = legitimate, 1 = fraud).
   - **Objective**: produce a **risk score** and a **decision** that balance fraud loss, manual-review cost, and customer experience.
 
-#### 2.1 Local CSV loader (IEEE-CIS)
+#### 2.1 CSV files
 
-- `fraud/data/load_ieee_local.py`:
-  - Reads `train_transaction.csv` and `train_identity.csv`.
-  - Left-joins on `TransactionID`.
-  - Builds:
-    - Feature matrix **X** (numeric features only by default, NaNs filled).
-    - Label **y = isFraud`.
-  - Drops columns with very high missing rate and constant columns.
+Local data lives under `project_2_fraud_risk_scoring/fraud/data/ieee_fraud/`. The loader (`fraud/data/load_ieee_local.py`) reads these **5 CSVs**:
 
-Key ideas:
+| CSV | Rows | Description |
+|-----|------|-------------|
+| `train_transaction.csv` | ~590,000 | Transaction-level features and label `isFraud`. |
+| `train_identity.csv` | ~144,000 | Identity/device info; left-joined on `TransactionID`. |
+| `test_transaction.csv` | ~506,000 | Test transactions (no label). |
+| `test_identity.csv` | ~141,000 | Test identity data. |
+| `sample_submission.csv` | 506,691 | Submission format. |
 
-- Keep the local demo **simple, numeric, and fast**.
-- Cleanly separate local CSV loading from any S3/production data loaders.
+Key ideas: Keep the local demo **simple, numeric, and fast**; cleanly separate local CSV loading from any S3/production data loaders.
 
 ---
 
-### 3. System Design & Modules (`project_2_fraud_risk_scoring/fraud`)
+### 3. System Design & Modules
 
 The fraud project is structured similarly to Project 1 but focused on transactions and real-time risk.
 
@@ -372,9 +366,7 @@ The fraud project is structured similarly to Project 1 but focused on transactio
   - `drift_job.py`: drift monitoring loop.
   - `rollback.py`: rollback logic when things go wrong.
 
----
-
-### 3.9 Services used & Docker containers (Fraud)
+### 3.9 Services used & Docker containers
 
 - **Services this project uses**:
   - **PostgreSQL**: audit (`fraud.prediction_audit`), async job state, optional online features.
@@ -384,7 +376,7 @@ The fraud project is structured similarly to Project 1 but focused on transactio
 
 - **Docker Compose** (`ds_platform/infra/docker-compose.yml`) provides (shared across projects):
 
-| Service   | Image                             | Port (default) | Purpose                                             |
+| Service   | Image                             | Port            | Purpose                                             |
 |-----------|------------------------------------|----------------|-----------------------------------------------------|
 | postgres  | postgres:15-alpine                | 5432           | DB for churn/fraud/rag (init.sql creates schemas). |
 | redis     | redis:7-alpine                    | 6379           | Celery broker / cache.                             |
@@ -396,11 +388,11 @@ For the **fraud demo**, you typically need **Postgres + Redis**; MLflow/Promethe
 
 ---
 
-### 4. Key Methods & Design Choices (Fraud)
+### 4. Key Methods & Design Choices
 
 - **Target & task design**
   - Binary classification on `isFraud` at the **transaction** level.
-  - Highly imbalanced classes (fraud is rare).
+  - Highly imbalanced classes.
   - Objective: good ranking of fraud vs legit **and** good policy metrics.
 
 - **Feature design**
@@ -422,12 +414,12 @@ For the **fraud demo**, you typically need **Postgres + Redis**; MLflow/Promethe
 
 ---
 
-### 5. API & Outputs (Fraud)
+### 5. API & Outputs
 
-Detailed API docs are in `project_2_fraud_risk_scoring/fraud/serving/README.md`. High-level summary:
+Detailed API docs are in `project_2_fraud_risk_scoring/fraud/serving/README.md`.
 
 - **Synchronous API – `POST /score`**
-  - **Input** (conceptually): `transaction_id` + key features or lookup keys.
+  - **Input**: `transaction_id` + key features or lookup keys.
   - **Output**:
     - `transaction_id`
     - `risk_score` (0–1)
@@ -440,7 +432,7 @@ Detailed API docs are in `project_2_fraud_risk_scoring/fraud/serving/README.md`.
   - Returns a `job_id` for later querying.
 
 - **Job status – `GET /jobs/{job_id}`**
-  - Returns job metadata and per-transaction results (risk_score, decision, errors).
+  - Returns job metadata and per-transaction results: risk_score, decision, errors.
 
 - **Database / audit outputs**
   - Each `/score` and completed async job is persisted to **Postgres** in **fraud** DB:
@@ -451,7 +443,7 @@ Detailed API docs are in `project_2_fraud_risk_scoring/fraud/serving/README.md`.
   - `/metrics`: Prometheus metrics (latency, QPS, decision distribution, error rates).
   - Logs: include `request_id` so you can trace from API call → logs → DB.
 
-#### 5.1 Postgres schema & interaction (Fraud)
+#### 5.1 Postgres schema & interaction
 
 - **Database**: `fraud`, **schema**: `fraud`.  
 - **Key tables**:
@@ -479,7 +471,7 @@ WHERE domain = 'fraud'
 
 ---
 
-### 6. Results & Business Impact (Fraud)
+### 6. Results & Business Impact
 
 - **Model performance metrics**:
   - ROC-AUC, PR-AUC on a hold-out set.
@@ -491,15 +483,12 @@ WHERE domain = 'fraud'
   - False negative rate (FNR) – fraud that slips through.
   - Approval Rate, Manual Review Rate.
 
-> In interviews, you can connect these to **business trade-offs**:
-> block more fraud vs. avoid over-declining good customers vs. control manual review workload.
-
 ---
 
-### 7. Future Directions — What I Would Do Next (Fraud)
+### 7. Future Directions — What I Would Do Next
 
 - **Limitations & assumptions**
-  - IEEE-CIS (or similar) is only a proxy; real production schemas and attack patterns evolve quickly.
+  - IEEE-CIS is only a proxy; real production schemas and attack patterns evolve quickly.
   - Features are mostly tabular; richer behavior logs and device intelligence can significantly help.
   - Policy engine is currently rule-based; real setups often involve multiple owners and regulatory constraints.
 
@@ -600,7 +589,7 @@ Key ideas:
 
 ---
 
-### 3. System Design & Modules (`project_3_enterprise_rag_llm/rag`)
+### 3. System Design & Modules
 
 - **3.1 Configs – `rag/configs`**
   - `retrieval.yaml`: configures BM25 / dense / hybrid retrieval and reranking, plus index type (e.g. Qdrant).  
@@ -708,7 +697,7 @@ For a full RAG demo, you typically need **all** of: Postgres + Redis + MLflow + 
 ### 6. Results & Business Impact
 
 - **Quality metrics**:
-  - Faithfulness (is answer supported by retrieved evidence?).  
+  - Faithfulness - is answer supported by retrieved evidence?.  
   - Answer relevancy.  
   - Context recall & precision.  
   - Citation coverage & citation accuracy.  
