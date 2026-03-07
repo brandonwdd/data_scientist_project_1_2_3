@@ -17,20 +17,20 @@
 
 - **Data source**: Kaggle SaaS subscription dataset  
   [`https://www.kaggle.com/datasets/rivalytics/saas-subscription-and-churn-analytics-dataset/data`](https://www.kaggle.com/datasets/rivalytics/saas-subscription-and-churn-analytics-dataset/data)
-- **Raw data** (high level):
+- **Raw data**:
   - Subscription history: plan, start/end dates, billing cycles.
-  - Customer attributes and simple engagement signals (depending on version).
+  - Customer attributes and simple engagement signals.
   - Churn status.
 - **My problem formulation**:
   - Define a **30‑day churn label** per user at an “as‑of date”.
   - Define a **90‑day LTV target** based on future revenue.
   - Build features so that the same definitions work for **offline training** and **online serving**.
 
-#### 2.1 CSV files (RavenStack from Kaggle data)
+#### 2.1 CSV files
 
 Local data lives under `churn/data/saas_churn_ltv/`. The loader (`ravenstack_loader.py`) reads these **5 CSVs**:
 
-| CSV | Rows (approx) | Description |
+| CSV | Rows | Description |
 |-----|----------------|--------------|
 | `ravenstack_accounts.csv` | 500 | One row per customer (account). |
 | `ravenstack_subscriptions.csv` | 5,000 | Subscription periods, plan, MRR/ARR, billing. |
@@ -38,19 +38,31 @@ Local data lives under `churn/data/saas_churn_ltv/`. The loader (`ravenstack_loa
 | `ravenstack_feature_usage.csv` | 25,000 | Per-subscription feature usage events. |
 | `ravenstack_support_tickets.csv` | 2,000 | Tickets, resolution time, satisfaction. |
 
-**Relations**: `accounts.account_id` → subscriptions, support_tickets, churn_events; `subscriptions.subscription_id` → feature_usage.
+**Relations**:
+
+```
+                 accounts
+                    |
+        ---------------------------
+        |            |            |
+subscriptions   support_tickets   churn_events
+        |
+   feature_usage
+```
 
 #### 2.2 Data structure
 
-- **accounts**: `account_id`, `account_name`, `industry`, `country`, `signup_date`, `referral_source`, `plan_tier`, `seats`, `is_trial`, `churn_flag`
-- **subscriptions**: `subscription_id`, `account_id`, `start_date`, `end_date`, `plan_tier`, `seats`, `mrr_amount`, `arr_amount`, `is_trial`, `upgrade_flag`, `downgrade_flag`, `churn_flag`, `billing_frequency`, `auto_renew_flag`
-- **churn_events**: `churn_event_id`, `account_id`, `churn_date`, `reason_code`, `refund_amount_usd`, `preceding_upgrade_flag`, `preceding_downgrade_flag`, `is_reactivation`, `feedback_text`
-- **feature_usage**: `usage_id`, `subscription_id`, `usage_date`, `feature_name`, `usage_count`, `usage_duration_secs`, `error_count`, `is_beta_feature`
-- **support_tickets**: `ticket_id`, `account_id`, `submitted_at`, `closed_at`, `resolution_time_hours`, `priority`, `first_response_time_minutes`, `satisfaction_score`, `escalation_flag`
+| Table | Fields |
+|-------|--------|
+| **accounts** | `account_id`, `account_name`, `industry`, `country`, `signup_date`, `referral_source`, `plan_tier`, `seats`, `is_trial`, `churn_flag` |
+| **subscriptions** | `subscription_id`, `account_id`, `start_date`, `end_date`, `plan_tier`, `seats`, `mrr_amount`, `arr_amount`, `is_trial`, `upgrade_flag`, `downgrade_flag`, `churn_flag`, `billing_frequency`, `auto_renew_flag` |
+| **churn_events** | `churn_event_id`, `account_id`, `churn_date`, `reason_code`, `refund_amount_usd`, `preceding_upgrade_flag`, `preceding_downgrade_flag`, `is_reactivation`, `feedback_text` |
+| **feature_usage** | `usage_id`, `subscription_id`, `usage_date`, `feature_name`, `usage_count`, `usage_duration_secs`, `error_count`, `is_beta_feature` |
+| **support_tickets** | `ticket_id`, `account_id`, `submitted_at`, `closed_at`, `resolution_time_hours`, `priority`, `first_response_time_minutes`, `satisfaction_score`, `escalation_flag` |
 
 ---
 
-### 3. System Design & Modules (`project_1_churn_ltv_decisioning/churn`)
+### 3. System Design & Modules
 
 This project lives in `project_1_churn_ltv_decisioning/`, with `churn/` structured by responsibility:
 
@@ -137,7 +149,7 @@ This project lives in `project_1_churn_ltv_decisioning/`, with `churn/` structur
 ### 5. API & Outputs
 
 - **Synchronous API – `POST /score`**
-  - **Input** (conceptually): `user_id` (+ optional extra context).
+  - **Input**: `user_id` (+ optional extra context).
   - **Output**:
     - `churn_prob_30d`
     - `ltv_90d`
@@ -154,7 +166,7 @@ This project lives in `project_1_churn_ltv_decisioning/`, with `churn/` structur
 
 #### 5.1 Postgres schema
 
-- **Logical layout (for Project 1)**  
+- **Logical layout**  
   - **Database**: `churn`  
   - **Schema**: `churn`  
   - **Key tables** (from `ds_platform/infra/postgres/init.sql`):
