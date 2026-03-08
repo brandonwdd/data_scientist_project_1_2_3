@@ -35,7 +35,7 @@ def main(
     save_dir: Path = None,
 ):
     data_dir = data_dir or DEFAULT_DATA_DIR
-    save_dir = save_dir or (PROJECT_ROOT / "data" / "demo_models")
+    save_dir = save_dir or (PROJECT_ROOT / "churn" / "models" / "artifacts")
     save_dir = Path(save_dir)
     save_dir.mkdir(parents=True, exist_ok=True)
 

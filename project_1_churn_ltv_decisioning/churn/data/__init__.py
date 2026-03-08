@@ -1,1 +1,2 @@
-# churn.data
+# Churn data package
+

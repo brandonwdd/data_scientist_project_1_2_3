@@ -2,25 +2,30 @@
 
 Shared Foundation (SDK + infra + common specifications)
 
-## Directory Structure
+## Directory Structure (training vs online serving)
 
-```
-ds_platform/
-├── platform_sdk/          # Platform SDK (unified capabilities)
-│   ├── common/            # Common utilities (config/logging/time/ids)
-│   ├── db/                # Database (pg.py, models.py)
-│   ├── schemas/          # API contracts (api_common.py, scoring.py, audit.py)
-│   ├── serving/          # Service scaffolding (app_factory.py, middleware.py, metrics.py, async_queue.py, health.py)
-│   ├── training/         # Training tools (mlflow_client.py, optuna_runner.py, promotion_gate.py, eval_metrics.py)
-│   ├── feature_store/    # Feature store (spec.py, offline_join.py, materialize.py, online_lookup.py, drift_baseline.py)
-│   ├── quality/          # Quality gates (ge_runner.py, pandera_runner.py, contracts.py)
-│   └── observability/    # Observability & governance (drift.py, tracing_stub.py)
-└── infra/                # Infrastructure configuration
-    ├── docker-compose.yml
-    ├── postgres/init.sql
-    ├── prometheus/
-    └── k8s/
-```
+`ds_platform` provides shared **SDK + infra** used by all three projects. The table below summarizes which parts are mainly used for **training**, which are for **serving/infra**, and which are shared:
+
+- **TRAIN**: model training / evaluation / registration / feature engineering  
+- **SERVE**: online services, async jobs, infra, observability  
+- **BOTH**: shared utilities and contracts
+
+| Category | Path | Usage | Notes |
+|----------|------|-------|-------|
+| SDK root | `platform_sdk/` | BOTH | Core platform SDK used by all projects |
+| SDK | `platform_sdk/common/` | BOTH | Shared utilities (config, logging, time, IDs) |
+| SDK | `platform_sdk/db/` | BOTH | Database helpers (`pg.py`, ORM models, connections) |
+| SDK | `platform_sdk/schemas/` | BOTH | API and DB contracts (`api_common.py`, `scoring.py`, `audit.py`, etc.) |
+| SDK | `platform_sdk/serving/` | SERVE | Service scaffolding (`app_factory.py`, middleware, metrics, async_queue, health checks) |
+| SDK | `platform_sdk/training/` | TRAIN | Training tools (MLflow client, Optuna runner, promotion gate, eval metrics) |
+| SDK | `platform_sdk/feature_store/` | BOTH | Feature store (spec, offline join, materialize, online lookup, drift baselines) |
+| SDK | `platform_sdk/quality/` | TRAIN | Data quality gates (Great Expectations / Pandera runners, contracts) |
+| SDK | `platform_sdk/observability/` | SERVE | Observability & governance (drift helpers, tracing stubs, metrics wiring) |
+| Infra root | `infra/` | SERVE | Shared infra configuration for all projects |
+| Infra | `infra/docker-compose.yml` | SERVE | Spins up Postgres, Redis, MLflow, Prometheus, Qdrant, etc. |
+| Infra | `infra/postgres/init.sql` | SERVE | Creates shared DBs/schemas (`churn`, `fraud`, `rag`, audit tables, async jobs, etc.) |
+| Infra | `infra/prometheus/` | SERVE | Prometheus configuration for scraping metrics |
+| Infra | `infra/k8s/` | SERVE | K8s manifests/templates for deploying services |
 
 ## Platform Responsibilities
 
