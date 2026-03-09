@@ -78,11 +78,11 @@ This project lives in `project_1_churn_ltv_decisioning/`. The table below lists 
 | Root | `.gitignore` | - | Git ignore rules (no runtime impact) |
 | Data | `churn/data/__init__.py` | both | Package init (imports only) |
 | Data | `churn/data/ravenstack_loader.py` | train | Load 5 CSVs and build churn/LTV labels |
-| Data | `churn/data/saas_churn_ltv/ravenstack_accounts.csv` | TRAIN | Example account-level table |
-| Data | `churn/data/saas_churn_ltv/ravenstack_subscriptions.csv` | TRAIN | Example subscriptions + MRR/ARR |
-| Data | `churn/data/saas_churn_ltv/ravenstack_churn_events.csv` | TRAIN | Example churn events |
-| Data | `churn/data/saas_churn_ltv/ravenstack_feature_usage.csv` | TRAIN | Example feature-usage events |
-| Data | `churn/data/saas_churn_ltv/ravenstack_support_tickets.csv` | TRAIN | Example support tickets |
+| Data | `churn/data/saas_churn_ltv/ravenstack_accounts.csv` | train | Example account-level table |
+| Data | `churn/data/saas_churn_ltv/ravenstack_subscriptions.csv` | train | Example subscriptions + MRR/ARR |
+| Data | `churn/data/saas_churn_ltv/ravenstack_churn_events.csv` | train | Example churn events |
+| Data | `churn/data/saas_churn_ltv/ravenstack_feature_usage.csv` | train | Example feature-usage events |
+| Data | `churn/data/saas_churn_ltv/ravenstack_support_tickets.csv` | train | Example support tickets |
 | Data | `churn/data/saas_churn_ltv/README.md` | docs | Data description for local demo |
 | Config | `churn/configs/feature_spec.yaml` | train | Feature spec (windows, types, domains) |
 | Config | `churn/configs/promotion_gate.yaml` | both | Promotion gate thresholds for model approval |
@@ -362,11 +362,11 @@ The fraud project is structured similarly to Project 1 but focused on **transact
 | Data | `fraud/data/load_data.py` | train | Main data loader (e.g. production/S3 path) |
 | Data | `fraud/data/load_ieee_local.py` | train | Local CSV loader for IEEE‑CIS fraud dataset |
 | Data | `fraud/data/contracts.py` | train | Data contracts / schema checks |
-| Data | `fraud/data/ieee_fraud/train_transaction.csv` | TRAIN | Example train transactions (IEEE‑CIS) |
-| Data | `fraud/data/ieee_fraud/train_identity.csv` | TRAIN | Example train identity/device table |
-| Data | `fraud/data/ieee_fraud/test_transaction.csv` | TRAIN | Example test transactions (no labels) |
-| Data | `fraud/data/ieee_fraud/test_identity.csv` | TRAIN | Example test identity data |
-| Data | `fraud/data/ieee_fraud/sample_submission.csv` | TRAIN | Sample submission format (Kaggle style) |
+| Data | `fraud/data/ieee_fraud/train_transaction.csv` | train | Example train transactions (IEEE‑CIS) |
+| Data | `fraud/data/ieee_fraud/train_identity.csv` | train | Example train identity/device table |
+| Data | `fraud/data/ieee_fraud/test_transaction.csv` | train | Example test transactions (no labels) |
+| Data | `fraud/data/ieee_fraud/test_identity.csv` | train | Example test identity data |
+| Data | `fraud/data/ieee_fraud/sample_submission.csv` | train | Sample submission format (Kaggle style) |
 | Config | `fraud/configs/feature_spec.yaml` | train | Feature spec for fraud (transaction/behavior/device/risk/profile) |
 | Config | `fraud/configs/train_local.yaml` | train | Local training config (paths, params) |
 | Config | `fraud/configs/promotion_gate.yaml` | both | Promotion gate thresholds for production |
