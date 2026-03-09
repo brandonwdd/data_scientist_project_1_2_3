@@ -66,55 +66,55 @@ subscriptions   support_tickets   churn_events
 
 This project lives in `project_1_churn_ltv_decisioning/`. The table below lists **all files in Project 1** and how they are used:
 
-- **TRAIN**: offline training / evaluation / backtesting  
-- **SERVE**: online API / async jobs / monitoring  
-- **BOTH**: shared by training and serving (e.g., model definitions)
+- **train**: offline training / evaluation / backtesting  
+- **serve**: online API / async jobs / monitoring  
+- **both**: shared by training and serving (e.g., model definitions)
 
 | Category | File / Directory | Usage | Notes |
 |---------|------------------|-------|-------|
 | Root | `project_1_churn_ltv_decisioning/README.md` | docs | Project overview only |
-| Root | `requirements-local.txt` | TRAIN | Minimal local dependencies for training |
-| Root | `requirements.txt` | BOTH | Full deps incl. platform SDK, MLflow, etc. |
+| Root | `requirements-local.txt` | train | Minimal local dependencies for training |
+| Root | `requirements.txt` | both | Full deps incl. platform SDK, MLflow, etc. |
 | Root | `.gitignore` | - | Git ignore rules (no runtime impact) |
-| Data | `churn/data/__init__.py` | BOTH | Package init (imports only) |
-| Data | `churn/data/ravenstack_loader.py` | TRAIN | Load 5 CSVs and build churn/LTV labels |
+| Data | `churn/data/__init__.py` | both | Package init (imports only) |
+| Data | `churn/data/ravenstack_loader.py` | train | Load 5 CSVs and build churn/LTV labels |
 | Data | `churn/data/saas_churn_ltv/ravenstack_accounts.csv` | TRAIN | Example account-level table |
 | Data | `churn/data/saas_churn_ltv/ravenstack_subscriptions.csv` | TRAIN | Example subscriptions + MRR/ARR |
 | Data | `churn/data/saas_churn_ltv/ravenstack_churn_events.csv` | TRAIN | Example churn events |
 | Data | `churn/data/saas_churn_ltv/ravenstack_feature_usage.csv` | TRAIN | Example feature-usage events |
 | Data | `churn/data/saas_churn_ltv/ravenstack_support_tickets.csv` | TRAIN | Example support tickets |
 | Data | `churn/data/saas_churn_ltv/README.md` | docs | Data description for local demo |
-| Config | `churn/configs/feature_spec.yaml` | TRAIN | Feature spec (windows, types, domains) |
-| Config | `churn/configs/promotion_gate.yaml` | BOTH | Promotion gate thresholds for model approval |
-| Features | `churn/features/__init__.py` | BOTH | Package init |
-| Features | `churn/features/ravenstack_features.py` | TRAIN | Pandas feature engineering for RavenStack CSVs |
-| Features | `churn/features/engineering.py` | TRAIN | Generic (Spark-style) feature engineering skeleton |
-| Features | `churn/features/point_in_time.py` | BOTH | Point-in-time joins to prevent leakage |
-| Models | `churn/models/__init__.py` | BOTH | Package init |
-| Models | `churn/models/churn_model.py` | BOTH | 30‑day churn classifier (LogReg / LightGBM + calibration) |
-| Models | `churn/models/ltv_model.py` | BOTH | 90‑day LTV regression (LightGBM) |
-| Models | `churn/models/explainability.py` | BOTH | SHAP-style explainability / reason codes |
-| Models | `churn/models/artifacts/` | TRAIN → SERVE | Directory for saved model artifacts (`*.pkl`) |
-| Decisioning | `churn/decisioning/__init__.py` | BOTH | Package init |
-| Decisioning | `churn/decisioning/optimizer.py` | BOTH | Combines churn_prob + LTV + costs + budget → `recommended_action` |
-| Decisioning | `churn/decisioning/backtest.py` | TRAIN | Historical backtest of policies (uplift, profit, offer rate) |
-| Evaluation | `churn/evaluation/__init__.py` | TRAIN | Package init |
-| Evaluation | `churn/evaluation/metrics.py` | TRAIN | Model & business metrics (AUC, PR‑AUC, calibration, etc.) |
-| Evaluation | `churn/evaluation/protocol.py` | TRAIN | Time-based train/val/test split & evaluation protocol |
-| Training | `churn/training/__init__.py` | TRAIN | Package init |
-| Training | `churn/training/train_churn_ravenstack.py` | TRAIN | Main local training script (CSV → features → churn+LTV models) |
-| Training | `churn/training/train_churn.py` | TRAIN | Generic training entrypoint (DataLoader + MLflow) |
-| Training | `churn/training/artifacts.py` | TRAIN | Organize MLflow artifacts (metrics, plots, model card) |
-| Training | `churn/training/promotion_gate.py` | BOTH | Apply promotion gate config to decide if a run can be promoted |
-| Serving | `churn/serving/__init__.py` | SERVE | Package init |
-| Serving | `churn/serving/app.py` | SERVE | FastAPI app exposing `/score`, `/score_async`, `/explain`, `/admin/materialize` |
-| Serving | `churn/serving/scoring.py` | SERVE | `ScoringService`: request → features → models → optimizer → response |
-| Serving | `churn/serving/async_tasks.py` | SERVE | Celery async batch scoring task (`churn.score_batch`) |
+| Config | `churn/configs/feature_spec.yaml` | train | Feature spec (windows, types, domains) |
+| Config | `churn/configs/promotion_gate.yaml` | both | Promotion gate thresholds for model approval |
+| Features | `churn/features/__init__.py` | both | Package init |
+| Features | `churn/features/ravenstack_features.py` | train | Pandas feature engineering for RavenStack CSVs |
+| Features | `churn/features/engineering.py` | train | Generic (Spark-style) feature engineering skeleton |
+| Features | `churn/features/point_in_time.py` | both | Point-in-time joins to prevent leakage |
+| Models | `churn/models/__init__.py` | both | Package init |
+| Models | `churn/models/churn_model.py` | both | 30‑day churn classifier (LogReg / LightGBM + calibration) |
+| Models | `churn/models/ltv_model.py` | both | 90‑day LTV regression (LightGBM) |
+| Models | `churn/models/explainability.py` | both | SHAP-style explainability / reason codes |
+| Models | `churn/models/artifacts/` | train → serve | Directory for saved model artifacts (`*.pkl`) |
+| Decisioning | `churn/decisioning/__init__.py` | both | Package init |
+| Decisioning | `churn/decisioning/optimizer.py` | both | Combines churn_prob + LTV + costs + budget → `recommended_action` |
+| Decisioning | `churn/decisioning/backtest.py` | train | Historical backtest of policies (uplift, profit, offer rate) |
+| Evaluation | `churn/evaluation/__init__.py` | train | Package init |
+| Evaluation | `churn/evaluation/metrics.py` | train | Model & business metrics (AUC, PR‑AUC, calibration, etc.) |
+| Evaluation | `churn/evaluation/protocol.py` | train | Time-based train/val/test split & evaluation protocol |
+| Training | `churn/training/__init__.py` | train | Package init |
+| Training | `churn/training/train_churn_ravenstack.py` | train | Main local training script (CSV → features → churn+LTV models) |
+| Training | `churn/training/train_churn.py` | train | Generic training entrypoint (DataLoader + MLflow) |
+| Training | `churn/training/artifacts.py` | train | Organize MLflow artifacts (metrics, plots, model card) |
+| Training | `churn/training/promotion_gate.py` | both | Apply promotion gate config to decide if a run can be promoted |
+| Serving | `churn/serving/__init__.py` | serve | Package init |
+| Serving | `churn/serving/app.py` | serve | FastAPI app exposing `/score`, `/score_async`, `/explain`, `/admin/materialize` |
+| Serving | `churn/serving/scoring.py` | serve | `ScoringService`: request → features → models → optimizer → response |
+| Serving | `churn/serving/async_tasks.py` | serve | Celery async batch scoring task (`churn.score_batch`) |
 | Serving | `churn/serving/README.md` | docs | Serving-specific documentation |
-| Monitoring | `churn/monitoring/__init__.py` | SERVE | Package init |
-| Monitoring | `churn/monitoring/drift_job.py` | SERVE | Data/model drift monitoring job |
-| Monitoring | `churn/monitoring/rollback.py` | SERVE | MLflow-based rollback runbook |
-| Demo | `churn/demo/demo_5min.py` | TRAIN | 5‑minute end‑to‑end demo (train + serve + call API locally) |
+| Monitoring | `churn/monitoring/__init__.py` | serve | Package init |
+| Monitoring | `churn/monitoring/drift_job.py` | serve | Data/model drift monitoring job |
+| Monitoring | `churn/monitoring/rollback.py` | serve | MLflow-based rollback runbook |
+| Demo | `churn/demo/demo_5min.py` | train | 5‑minute end‑to‑end demo (train + serve + call API locally) |
 
 #### 3.8 Services used & Docker containers
 
@@ -172,7 +172,7 @@ This project lives in `project_1_churn_ltv_decisioning/`. The table below lists 
     - `churn_prob_30d`
     - `ltv_90d`
     - `recommended_action` (one of `NO_ACTION`, `OFFER_5`, `OFFER_10`, `CALL_SUPPORT`)
-    - `reason_codes` (e.g. `"HIGH_CHURN_RISK"`, `"HIGH_LTV"`)
+    - `reason_codes` (e.g. `"high_churn_risk"`, `"high_ltv"`)
     - `request_id` for tracing.
 
 - **Asynchronous API – `POST /score_async`**
@@ -350,50 +350,50 @@ Key ideas: Keep the local demo **simple, numeric, and fast**; cleanly separate l
 
 The fraud project is structured similarly to Project 1 but focused on **transactions** and **real-time risk**. The table below lists **all files in Project 2** and how they are used:
 
-- **TRAIN**: offline training / evaluation / policy experimentation  
-- **SERVE**: online API / async jobs / monitoring  
-- **BOTH**: shared by training and serving (e.g., model definitions, gates)
+- **train**: offline training / evaluation / policy experimentation  
+- **serve**: online API / async jobs / monitoring  
+- **both**: shared by training and serving (e.g., model definitions, gates)
 
 | Category | File / Directory | Usage | Notes |
 |---------|------------------|-------|-------|
-| Root | `project_2_fraud_risk_scoring/requirements.txt` | BOTH | Full deps for training + serving (incl. platform SDK) |
+| Root | `project_2_fraud_risk_scoring/requirements.txt` | both | Full deps for training + serving (incl. platform SDK) |
 | Root | `project_2_fraud_risk_scoring/.gitignore` | - | Git ignore rules (no runtime impact) |
-| Data | `fraud/data/__init__.py` | BOTH | Package init |
-| Data | `fraud/data/load_data.py` | TRAIN | Main data loader (e.g. production/S3 path) |
-| Data | `fraud/data/load_ieee_local.py` | TRAIN | Local CSV loader for IEEE‑CIS fraud dataset |
-| Data | `fraud/data/contracts.py` | TRAIN | Data contracts / schema checks |
+| Data | `fraud/data/__init__.py` | both | Package init |
+| Data | `fraud/data/load_data.py` | train | Main data loader (e.g. production/S3 path) |
+| Data | `fraud/data/load_ieee_local.py` | train | Local CSV loader for IEEE‑CIS fraud dataset |
+| Data | `fraud/data/contracts.py` | train | Data contracts / schema checks |
 | Data | `fraud/data/ieee_fraud/train_transaction.csv` | TRAIN | Example train transactions (IEEE‑CIS) |
 | Data | `fraud/data/ieee_fraud/train_identity.csv` | TRAIN | Example train identity/device table |
 | Data | `fraud/data/ieee_fraud/test_transaction.csv` | TRAIN | Example test transactions (no labels) |
 | Data | `fraud/data/ieee_fraud/test_identity.csv` | TRAIN | Example test identity data |
 | Data | `fraud/data/ieee_fraud/sample_submission.csv` | TRAIN | Sample submission format (Kaggle style) |
-| Config | `fraud/configs/feature_spec.yaml` | TRAIN | Feature spec for fraud (transaction/behavior/device/risk/profile) |
-| Config | `fraud/configs/train_local.yaml` | TRAIN | Local training config (paths, params) |
-| Config | `fraud/configs/promotion_gate.yaml` | BOTH | Promotion gate thresholds for production |
-| Config | `fraud/configs/promotion_gate_local.yaml` | TRAIN | Local version of promotion gate (demo/experiments) |
-| Features | `fraud/features/__init__.py` | BOTH | Package init |
-| Features | `fraud/features/engineering.py` | TRAIN | Feature engineering for transaction, behavior, device/location, risk, profile |
-| Features | `fraud/features/point_in_time.py` | BOTH | Time‑aware joins to avoid leakage across time |
-| Models | `fraud/models/__init__.py` | BOTH | Package init |
-| Models | `fraud/models/fraud_model.py` | BOTH | Wraps Isolation Forest, Random Forest, LightGBM backends |
-| Models | `fraud/models/explainability.py` | BOTH | SHAP‑style explainability utilities |
-| Policy | `fraud/policy/__init__.py` | BOTH | Package init |
-| Policy | `fraud/policy/policy_engine.py` | BOTH | Rule‑based engine: `risk_score` + key features → `APPROVE/REJECT/MANUAL_REVIEW` |
-| Evaluation | `fraud/evaluation/__init__.py` | TRAIN | Package init |
-| Evaluation | `fraud/evaluation/metrics.py` | TRAIN | Model + policy metrics (ROC‑AUC, PR‑AUC, FPR/FNR, etc.) |
-| Evaluation | `fraud/evaluation/protocol.py` | TRAIN | Evaluation protocol for fair model/policy comparison |
-| Training | `fraud/training/__init__.py` | TRAIN | Package init |
-| Training | `fraud/training/train_fraud.py` | TRAIN | Main end‑to‑end training script |
-| Training | `fraud/training/artifacts.py` | TRAIN | Artifact organization & MLflow logging |
-| Serving | `fraud/serving/__init__.py` | SERVE | Package init |
-| Serving | `fraud/serving/app.py` | SERVE | FastAPI app: `/score`, `/score_async`, `/jobs/{job_id}`, `/health`, `/metrics` |
-| Serving | `fraud/serving/scoring.py` | SERVE | Request → features → model → policy → response |
-| Serving | `fraud/serving/async_tasks.py` | SERVE | Celery‑based async workers for batch scoring |
+| Config | `fraud/configs/feature_spec.yaml` | train | Feature spec for fraud (transaction/behavior/device/risk/profile) |
+| Config | `fraud/configs/train_local.yaml` | train | Local training config (paths, params) |
+| Config | `fraud/configs/promotion_gate.yaml` | both | Promotion gate thresholds for production |
+| Config | `fraud/configs/promotion_gate_local.yaml` | train | Local version of promotion gate (demo/experiments) |
+| Features | `fraud/features/__init__.py` | both | Package init |
+| Features | `fraud/features/engineering.py` | train | Feature engineering for transaction, behavior, device/location, risk, profile |
+| Features | `fraud/features/point_in_time.py` | both | Time‑aware joins to avoid leakage across time |
+| Models | `fraud/models/__init__.py` | both | Package init |
+| Models | `fraud/models/fraud_model.py` | both | Wraps Isolation Forest, Random Forest, LightGBM backends |
+| Models | `fraud/models/explainability.py` | both | SHAP‑style explainability utilities |
+| Policy | `fraud/policy/__init__.py` | both | Package init |
+| Policy | `fraud/policy/policy_engine.py` | both | Rule‑based engine: `risk_score` + key features → `APPROVE/REJECT/MANUAL_REVIEW` |
+| Evaluation | `fraud/evaluation/__init__.py` | train | Package init |
+| Evaluation | `fraud/evaluation/metrics.py` | train | Model + policy metrics (ROC‑AUC, PR‑AUC, FPR/FNR, etc.) |
+| Evaluation | `fraud/evaluation/protocol.py` | train | Evaluation protocol for fair model/policy comparison |
+| Training | `fraud/training/__init__.py` | train | Package init |
+| Training | `fraud/training/train_fraud.py` | train | Main end‑to‑end training script |
+| Training | `fraud/training/artifacts.py` | train | Artifact organization & MLflow logging |
+| Serving | `fraud/serving/__init__.py` | serve | Package init |
+| Serving | `fraud/serving/app.py` | serve | FastAPI app: `/score`, `/score_async`, `/jobs/{job_id}`, `/health`, `/metrics` |
+| Serving | `fraud/serving/scoring.py` | serve | Request → features → model → policy → response |
+| Serving | `fraud/serving/async_tasks.py` | serve | Celery‑based async workers for batch scoring |
 | Serving | `fraud/serving/README.md` | docs | Serving‑specific documentation |
-| Monitoring | `fraud/monitoring/__init__.py` | SERVE | Package init |
-| Monitoring | `fraud/monitoring/drift_job.py` | SERVE | Drift monitoring loop for fraud models |
-| Monitoring | `fraud/monitoring/rollback.py` | SERVE | Rollback logic when things go wrong |
-| Demo | `fraud/demo/demo_5min.py` | TRAIN | 5‑minute end‑to‑end fraud demo (train + serve + call API) |
+| Monitoring | `fraud/monitoring/__init__.py` | serve | Package init |
+| Monitoring | `fraud/monitoring/drift_job.py` | serve | Drift monitoring loop for fraud models |
+| Monitoring | `fraud/monitoring/rollback.py` | serve | Rollback logic when things go wrong |
+| Demo | `fraud/demo/demo_5min.py` | train | 5‑minute end‑to‑end fraud demo (train + serve + call API) |
 
 ### 3.9 Services used & Docker containers
 
@@ -622,45 +622,45 @@ Key ideas:
 
 The RAG project lives in `project_3_enterprise_rag_llm/`. The table below lists **all key files** and how they are used:
 
-- **TRAIN**: offline ingestion / indexing / evaluation / experimentation  
-- **SERVE**: online RAG API, async evaluation jobs, metrics  
-- **BOTH**: shared by training and serving (e.g., retrieval/generation pipelines, configs)
+- **train**: offline ingestion / indexing / evaluation / experimentation  
+- **serve**: online RAG API, async evaluation jobs, metrics  
+- **both**: shared by training and serving (e.g., retrieval/generation pipelines, configs)
 
 | Category | File / Directory | Usage | Notes |
 |---------|------------------|-------|-------|
 | Root | `project_3_enterprise_rag_llm/README.md` | docs | RAG project overview |
-| Root | `project_3_enterprise_rag_llm/requirements.txt` | BOTH | Full deps (LLM client, Qdrant, Celery, MLflow, etc.) |
+| Root | `project_3_enterprise_rag_llm/requirements.txt` | both | Full deps (LLM client, Qdrant, Celery, MLflow, etc.) |
 | Root | `project_3_enterprise_rag_llm/.gitignore` | - | Git ignore rules |
 | Root | `project_3_enterprise_rag_llm/env.example` | BOTH | Example `.env` for RAG_LLM_*, QDRANT_*, POSTGRES_*, REDIS_*, CELERY_* |
-| RAG core | `rag/__init__.py` | BOTH | Package init |
-| Config | `rag/configs/retrieval.yaml` | BOTH | Configures BM25 / dense / hybrid retrieval and reranking, plus index type (e.g. Qdrant) |
-| Config | `rag/configs/promotion_gate.yaml` | BOTH | Thresholds for evaluation/promotion gate (faithfulness, relevancy, latency, hallucination rate, etc.) |
-| Ingestion | `rag/ingestion/__init__.py` | TRAIN | Package init |
-| Ingestion | `rag/ingestion/parsers.py` | TRAIN | Parses PDFs into raw text segments |
-| Ingestion | `rag/ingestion/chunker.py` | TRAIN | Splits docs into chunks (headings + sliding windows + overlap) with metadata |
-| Retrieval | `rag/retrieval/__init__.py` | BOTH | Package init |
-| Retrieval | `rag/retrieval/retriever.py` | BOTH | BM25 / dense / hybrid retrieval + rerank; tracks `index_version`, `retriever_version` |
-| Retrieval | `rag/retrieval/index_store.py` | BOTH | Index abstraction for building/storing/loading vector indices |
-| Retrieval | `rag/retrieval/qdrant_store.py` | BOTH | Qdrant-backed index implementation |
-| Generation | `rag/generation/__init__.py` | BOTH | Package init |
-| Generation | `rag/generation/pipeline.py` | BOTH | End‑to‑end generation pipeline (retrieve → prompt → LLM → answer + citations) |
-| Generation | `rag/generation/router.py` | BOTH | Routes between cheap FAQ mode and full RAG mode based on query difficulty |
-| Generation | `rag/generation/llm_client.py` | BOTH | LLM client abstraction (OpenAI‑compatible; reads env config) |
-| Optional | `rag/optional_lora/__init__.py` | TRAIN | Placeholder for optional LoRA fine‑tuning integrations |
-| Evaluation | `rag/evaluation/__init__.py` | TRAIN | Package init |
-| Evaluation | `rag/evaluation/metrics.py` | TRAIN | RAG metrics (ragas, faithfulness, relevancy, context recall/precision, latency, cost, citation metrics) |
-| Evaluation | `rag/evaluation/eval_gate.py` | BOTH | Implements promotion gate using metrics + `promotion_gate.yaml` |
-| Evaluation | `rag/evaluation/io.py` | TRAIN | I/O utilities for evaluation sets and reports |
-| Feedback | `rag/feedback/__init__.py` | TRAIN | Package init |
-| Feedback | `rag/feedback/hard_set.py` | TRAIN | Builds `hard_set.jsonl` from low‑faithfulness / hard cases |
-| Serving | `rag/serving/__init__.py` | SERVE | Package init |
-| Serving | `rag/serving/app.py` | SERVE | FastAPI app exposing `/ask`, `/retrieve`, `/evaluate/run`, `/feedback` |
-| Serving | `rag/serving/async_tasks.py` | SERVE | Celery async tasks for evaluation & background jobs |
-| Serving | `rag/serving/rag_metrics.py` | SERVE | RAG‑specific metrics for Prometheus/Grafana |
-| CLI | `rag/cli/__init__.py` | TRAIN | Package init |
-| CLI | `rag/cli/ingest.py` | TRAIN | CLI entrypoint for ingestion & optional index build |
-| Artifacts | `rag/artifacts.py` | BOTH | Defines what is logged to MLflow (metrics, ragas reports, latency/cost, index manifest, prompt versions, model card, failure cases) |
-| Demo | `rag/demo/demo_5min.py` | TRAIN | 5‑minute RAG demo (ingest + build index + start API + call `/ask`) |
+| RAG core | `rag/__init__.py` | both | Package init |
+| Config | `rag/configs/retrieval.yaml` | both | Configures BM25 / dense / hybrid retrieval and reranking, plus index type (e.g. Qdrant) |
+| Config | `rag/configs/promotion_gate.yaml` | both | Thresholds for evaluation/promotion gate (faithfulness, relevancy, latency, hallucination rate, etc.) |
+| Ingestion | `rag/ingestion/__init__.py` | train | Package init |
+| Ingestion | `rag/ingestion/parsers.py` | train | Parses PDFs into raw text segments |
+| Ingestion | `rag/ingestion/chunker.py` | train | Splits docs into chunks (headings + sliding windows + overlap) with metadata |
+| Retrieval | `rag/retrieval/__init__.py` | both | Package init |
+| Retrieval | `rag/retrieval/retriever.py` | both | BM25 / dense / hybrid retrieval + rerank; tracks `index_version`, `retriever_version` |
+| Retrieval | `rag/retrieval/index_store.py` | both | Index abstraction for building/storing/loading vector indices |
+| Retrieval | `rag/retrieval/qdrant_store.py` | both | Qdrant-backed index implementation |
+| Generation | `rag/generation/__init__.py` | both | Package init |
+| Generation | `rag/generation/pipeline.py` | both | End‑to‑end generation pipeline (retrieve → prompt → LLM → answer + citations) |
+| Generation | `rag/generation/router.py` | both | Routes between cheap FAQ mode and full RAG mode based on query difficulty |
+| Generation | `rag/generation/llm_client.py` | both | LLM client abstraction (OpenAI‑compatible; reads env config) |
+| Optional | `rag/optional_lora/__init__.py` | train | Placeholder for optional LoRA fine‑tuning integrations |
+| Evaluation | `rag/evaluation/__init__.py` | train | Package init |
+| Evaluation | `rag/evaluation/metrics.py` | train | RAG metrics (ragas, faithfulness, relevancy, context recall/precision, latency, cost, citation metrics) |
+| Evaluation | `rag/evaluation/eval_gate.py` | both | Implements promotion gate using metrics + `promotion_gate.yaml` |
+| Evaluation | `rag/evaluation/io.py` | train | I/O utilities for evaluation sets and reports |
+| Feedback | `rag/feedback/__init__.py` | train | Package init |
+| Feedback | `rag/feedback/hard_set.py` | train | Builds `hard_set.jsonl` from low‑faithfulness / hard cases |
+| Serving | `rag/serving/__init__.py` | serve | Package init |
+| Serving | `rag/serving/app.py` | serve | FastAPI app exposing `/ask`, `/retrieve`, `/evaluate/run`, `/feedback` |
+| Serving | `rag/serving/async_tasks.py` | serve | Celery async tasks for evaluation & background jobs |
+| Serving | `rag/serving/rag_metrics.py` | serve | RAG‑specific metrics for Prometheus/Grafana |
+| CLI | `rag/cli/__init__.py` | train | Package init |
+| CLI | `rag/cli/ingest.py` | train | CLI entrypoint for ingestion & optional index build |
+| Artifacts | `rag/artifacts.py` | both | Defines what is logged to MLflow (metrics, ragas reports, latency/cost, index manifest, prompt versions, model card, failure cases) |
+| Demo | `rag/demo/demo_5min.py` | train | 5‑minute RAG demo (ingest + build index + start API + call `/ask`) |
 
 ---
 
