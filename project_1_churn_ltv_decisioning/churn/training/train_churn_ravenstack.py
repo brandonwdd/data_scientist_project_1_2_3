@@ -1,4 +1,4 @@
-"""Train churn+LTV on RavenStack local CSVs (no S3/Spark)."""
+"""Train churn_ltv on RavenStack local CSVs"""
 
 import os
 import sys
@@ -38,11 +38,6 @@ def main(
     save_dir = save_dir or (PROJECT_ROOT / "churn" / "models" / "artifacts")
     save_dir = Path(save_dir)
     save_dir.mkdir(parents=True, exist_ok=True)
-
-    print("RavenStack local training (Churn + LTV)")
-    print("=" * 50)
-    print(f"Data dir: {data_dir}")
-    print(f"As-of date: {as_of_date}")
 
     # Load tables
     tables = load_ravenstack_tables(data_dir)
@@ -86,33 +81,20 @@ def main(
     yl_train, yl_val, yl_test = y_ltv.iloc[i_train], y_ltv.iloc[i_val], y_ltv.iloc[i_test]
 
     # Train Churn
-    print("\n[1/2] Training Churn model...")
     churn_model = ChurnModel(model_type="lightgbm", calibrate=True)
     churn_model.train(X_train, yc_train, X_val, yc_val)
     y_test_churn_pred = churn_model.predict_proba(X_test)
     churn_metrics = compute_churn_metrics(yc_test, y_test_churn_pred)
-    for k, v in churn_metrics.items():
-        print(f"  test_{k}: {v:.4f}")
     churn_path = save_dir / "churn_model.pkl"
     churn_model.save(str(churn_path))
-    print(f"  Saved: {churn_path}")
 
     # Train LTV
-    print("\n[2/2] Training LTV model...")
     ltv_model = LTVModel(model_type="lightgbm")
     ltv_model.train(X_train, yl_train, X_val, yl_val)
     ltv_pred = ltv_model.predict(X_test)
     ltv_metrics = compute_ltv_metrics(yl_test, ltv_pred["ltv_90d"])
-    for k, v in ltv_metrics.items():
-        print(f"  test_{k}: {v:.4f}")
     ltv_path = save_dir / "ltv_model.pkl"
     ltv_model.save(str(ltv_path))
-    print(f"  Saved: {ltv_path}")
-
-    print("\nDone. Start serving with:")
-    print(f"  set CHURN_MODEL_PATH={churn_path}")
-    print(f"  set LTV_MODEL_PATH={ltv_path}")
-    print("  uvicorn churn.serving.app:app --host 0.0.0.0 --port 8000")
 
 
 if __name__ == "__main__":

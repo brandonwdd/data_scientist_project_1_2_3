@@ -1,4 +1,4 @@
-"""RavenStack local CSV loader: saas_churn_ltv tables → churn/LTV labels."""
+"""RavenStack local CSV loader: saas_churn_ltv tables → churn_ltv labels"""
 
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -13,9 +13,9 @@ def load_ravenstack_tables(data_dir: Path) -> dict:
     data_dir = Path(data_dir)
     return {
         "accounts": pd.read_csv(data_dir / "ravenstack_accounts.csv"),
-        "subscriptions": pd.read_csv(data_dir / "ravenstack_subscriptions.csv"),
         "churn_events": pd.read_csv(data_dir / "ravenstack_churn_events.csv"),
         "feature_usage": pd.read_csv(data_dir / "ravenstack_feature_usage.csv"),
+        "subscriptions": pd.read_csv(data_dir / "ravenstack_subscriptions.csv"),
         "support_tickets": pd.read_csv(data_dir / "ravenstack_support_tickets.csv"),
     }
 
@@ -43,23 +43,19 @@ def get_churn_labels(
 
         # Accounts with active subscription at as_of (start <= as_of, end is null or > as_of)
         active_subs = subscriptions[
-            (subscriptions["start_date"] <= as_of_ts)
-            & (subscriptions["end_date"].isna() | (subscriptions["end_date"] > as_of_ts))
+            (subscriptions["start_date"] <= as_of_ts) & (subscriptions["end_date"].isna() | (subscriptions["end_date"] > as_of_ts))
         ]
         account_ids = active_subs["account_id"].drop_duplicates().tolist()
 
         # Churn from churn_events: churn_date in (as_of, as_of + horizon_days]
         churned_from_events = set(
             churn_events[
-                (churn_events["churn_date"] > as_of_ts)
-                & (churn_events["churn_date"] <= window_end)
-            ]["account_id"].tolist()
+                (churn_events["churn_date"] > as_of_ts) & (churn_events["churn_date"] <= window_end)]["account_id"].tolist()
         )
 
         # Churn from subscriptions: end_date in (as_of, as_of + horizon_days]
         ended_subs = subscriptions[
-            (subscriptions["end_date"] > as_of_ts)
-            & (subscriptions["end_date"] <= window_end)
+            (subscriptions["end_date"] > as_of_ts) & (subscriptions["end_date"] <= window_end)
         ]
         churned_from_subs = set(ended_subs["account_id"].tolist())
 
@@ -91,15 +87,13 @@ def get_ltv_labels(
 
         # Accounts with active subscription at as_of (same universe as churn_labels)
         active_subs = subscriptions[
-            (subscriptions["start_date"] <= as_of_ts)
-            & (subscriptions["end_date"].isna() | (subscriptions["end_date"] > as_of_ts))
+            (subscriptions["start_date"] <= as_of_ts) & (subscriptions["end_date"].isna() | (subscriptions["end_date"] > as_of_ts))
         ]
         account_ids = set(active_subs["account_id"].tolist())
 
         # Subscriptions that overlap with (as_of, window_end]
         overlapping = subscriptions[
-            (subscriptions["start_date"] < window_end)
-            & (subscriptions["end_date"].isna() | (subscriptions["end_date"] > as_of_ts))
+            (subscriptions["start_date"] < window_end) & (subscriptions["end_date"].isna() | (subscriptions["end_date"] > as_of_ts))
         ]
 
         ltv_by_account = {aid: 0.0 for aid in account_ids}
